@@ -11,11 +11,25 @@
   <div class="mainframe">
     <div class="inputcontainer">
        <div class="title">Complete URL</div>
-       <textarea class="textfield" placeholder="http[s]://domain/..."></textarea>
+       <textarea class="textfield" placeholder="http[s]://domain/ ..."></textarea>
     </div>
-    <div class="inputcontainer">
+    <div class="inputcontainer" style="width: 15%";>
+       <div class="title">Scheme</div>
+       <input class="textfield" type="text" placeholder="http | ftp ..."></input>
+    </div>
+    <div class="inputcontainer" style="width: 3%";>
+	<span class="middlesymbol">&nbsp;<p>://</p></span>
+    </div>
+    <div class="inputcontainer" style="width: 53%; margin-left: 1%;";>
        <div class="title">Domain</div>
-       <input class="textfield" type="text" placeholder="Domain goes here..."></input>
+       <input class="textfield" type="text" placeholder="?????.com"></input>
+    </div>
+    <div class="inputcontainer" style="width: 1%; margin: 0px 1%;";>
+	<span class="middlesymbol">&nbsp;<p>:</p></span>
+    </div>
+    <div class="inputcontainer" style="width: 25%;";>
+       <div class="title">Port</div>
+       <input class="textfield" type="text" placeholder="1 - 65535"></input>
     </div>
   </div>
 </body>
