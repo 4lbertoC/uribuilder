@@ -15,7 +15,10 @@ body {
   opacity: 0.1;
   font-size: 5em;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 99%;
+  text-align: left;
+  margin-left: 1%;
 }
 
 .title {
@@ -61,6 +64,10 @@ body {
     font-size: 1.20em;
   }
 
+  .verybigtitle {
+    font-size: 4em;
+  }
+
   .inputcontainer {
     position: relative;
     width: 100% !important;
@@ -82,6 +89,7 @@ body {
   float: right;
   width: 100%;
   max-width: 100%;
+  min-width: 100%;
   border-radius: 5px;
   border-width: 0px 0px 3px 0px;
   border-color: antiquewhite;

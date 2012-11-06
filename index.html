@@ -7,34 +7,35 @@
   <script type="text/javascript" src="meat.js"></script>
 </head>
 <body>
+  <a href="https://github.com/4lbertoC/urlbuilder"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
   <div class="verybigtitle">URL Builder</div>
   <div class="title bigtitle">URL Builder</div>
   <div class="mainframe">
     <div class="inputcontainer">
        <div class="title">Complete URL</div>
-       <textarea class="textfield" placeholder="http[s]://domain/ ..."></textarea>
+       <textarea id="t_url" class="textfield" placeholder="http[s]://domain/ ..."></textarea>
     </div>
     <div class="inputcontainer" style="width: 15%;">
        <div class="title">Scheme</div>
-       <input class="textfield" type="text" placeholder="http | ftp ..."></input>
+       <input id="t_scheme" class="textfield" type="text" placeholder="http | ftp ..."></input>
     </div>
     <div class="inputcontainer" style="width: 3%;">
 	<span class="middlesymbol">&nbsp;<p>://</p></span>
     </div>
     <div class="inputcontainer" style="width: 53%; margin-left: 1%;">
        <div class="title">Domain</div>
-       <input class="textfield" type="text" placeholder="?????.com"></input>
+       <input id="t_domain" class="textfield" type="text" placeholder="?????.com"></input>
     </div>
     <div class="inputcontainer" style="width: 1%; margin: 0px 1%;">
 	<span class="middlesymbol">&nbsp;<p>:</p></span>
     </div>
     <div class="inputcontainer" style="width: 25%;">
        <div class="title">Port</div>
-       <input class="textfield" type="text" placeholder="1 - 65535"></input>
+       <input id="t_port" class="textfield" type="text" placeholder="1 - 65535"></input>
     </div>
     <div class="inputcontainer">
        <div class="title">Path</div>
-       <input class="textfield" type="text" placeholder="/path/to/something"></input>
+       <input id="t_path" class="textfield" type="text" placeholder="/path/to/something"></input>
     </div>
   </div>
   <div class="mainframe">
