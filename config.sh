@@ -4,13 +4,10 @@
 # URLBUILDER VARS
 #################
 
-# Path to the urlbuilder files
-PATH="../urlbuilder"
+# Path to the urlbuilder directory relative to the Closure Library [DEV-ONLY]
+PATH="../urlbuilder/scripts"
 
-# Prefix to append to each dependency path 
-PREFIX="../../../"$PATH
-
-# Output filename
+# Output filename [DEV-ONLY]
 DEPSFILENAME="urlbuilder_deps.js"
 
 #################
@@ -37,6 +34,6 @@ PYTHON="/usr/bin/python"
 # Directory in which the Closure Library is installed
 CLOSUREDIR="../extlib/"
 
-# Command to execute to create deps file
+# Command to execute to create deps file [DEV-ONLY]
 DEPSWRITERCMD=$CLOSUREDIR"closure-library/closure/bin/build/depswriter.py"
 

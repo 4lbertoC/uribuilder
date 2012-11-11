@@ -42,12 +42,19 @@ fi
 if [ $BUILDMODE == "dev" ]; then
   echo "Building development package..."
   
+  # Escape Closure dir to be used in sed
+  SAFECLOSUREDIR=$(printf "%s\n" "$CLOSUREDIR" | /bin/sed 's/[][\.*^$/]/\\&/g')
+  # Prefix to append to each dependency path 
+  PREFIX="../../../../"$PATH
   # Create deps file
   $PYTHON $DEPSWRITERCMD --root_with_prefix=$PATH" "$PREFIX > $BUILDDIR/$DEPSFILENAME
-  # Copy sources
-  /bin/cp -r scripts $BUILDDIR
+  # Remove <!--PROD PROD--> into index.html
+  /bin/sed -e :a -re 's/<!--PROD.*?PROD-->//g;/<!--/N;//ba' < index.html | 
   # Uncomment <!--DEV DEV--> and remove <!--PROD PROD--> into index.html
-  /bin/sed -e :a -re 's/<!--PROD.*?PROD-->//g;/<!--/N;//ba' < index.html | /bin/sed -e :a -re 's/<!--DEV(.*?)DEV-->/\1/g;/<!--/N;//ba' > $BUILDDIR/index.html
+  /bin/sed -e :a -re 's/<!--DEV(.*?)DEV-->/\1/g;/<!--/N;//ba' |
+  /bin/sed -e 's/\${CLOSUREDIR}/..\/'$SAFECLOSUREDIR'/g' > $BUILDDIR/index.html
+  # Copy style
+  /bin/cp -r style $BUILDDIR
 
 #
 # Prod build
@@ -61,3 +68,5 @@ elif [ $BUILDMODE == "prod" ]; then
 fi
 
 echo "Done."
+
+
