@@ -3,13 +3,13 @@ goog.provide('urlbuilder.Controller');
 
 goog.require('goog.dom');
 goog.require('goog.events');
-goog.require('urlbuilder.Handlers');
+goog.require('urlbuilder.EventHandler');
 goog.require('urlbuilder.UI');
 
 urlbuilder.Controller.activateListeners_ = function()
 {
   var elements = goog.dom.getElementsByClass(urlbuilder.UI.TEXTFIELD_CLASSNAME);
-  urlbuilder.Handlers.activateListeners(elements);
+  urlbuilder.EventHandler.activateListeners(elements);
 };
 
 /**
@@ -19,4 +19,13 @@ urlbuilder.Controller.activateListeners_ = function()
 urlbuilder.Controller.init = function()
 {
   urlbuilder.Controller.activateListeners_();
+};
+
+/**
+ * Parses a url and splits it into its components.
+ * @param {string} url The input url.
+ */
+urlbuilder.Controller.parseUrl_ = function(url)
+{
+
 };

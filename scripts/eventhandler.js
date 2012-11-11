@@ -1,5 +1,5 @@
 
-goog.provide('urlbuilder.Handlers');
+goog.provide('urlbuilder.EventHandler');
 
 goog.require('goog.array');
 goog.require('goog.events');
@@ -11,10 +11,14 @@ goog.require('urlbuilder.UI');
  * Handlers class.
  * @constructor
  */
-urlbuilder.Handlers = function()
+urlbuilder.EventHandler = function()
 {};
 
-urlbuilder.Handlers.activateListeners = function(elements)
+/**
+ * Activate the listeners on the DOM elements.
+ * @param {Array.<HTMLElement>} elements The input elements.
+ */
+urlbuilder.EventHandler.activateListeners = function(elements)
 {
   goog.array.forEach(elements, function(element)
   {
@@ -22,7 +26,7 @@ urlbuilder.Handlers.activateListeners = function(elements)
     if(goog.string.startsWith(id, urlbuilder.UI.PREFIX))
     {
       var elementName = goog.string.remove(id, urlbuilder.UI.PREFIX).toUpperCase();
-      goog.object.forEach(urlbuilder.Handlers[elementName], function(handler, eventName)
+      goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
       {
         goog.events.listen(element, eventName, handler);
       });
@@ -33,43 +37,45 @@ urlbuilder.Handlers.activateListeners = function(elements)
 /**
  * Handlers for the URL text field.
  */
-urlbuilder.Handlers.URL = {
-  'input': function(evt) {}
+urlbuilder.EventHandler.URL = {
+  'input': function(evt) {
+    
+  }
 };
 
 /**
  * Handlers for the scheme text field.
  */
-urlbuilder.Handlers.SCHEME = {
+urlbuilder.EventHandler.SCHEME = {
   'input': function(evt) {
-    urlbuilder.Handlers.defaultInput(evt);
+    urlbuilder.EventHandler.defaultInput(evt);
   }
 };
 
 /**
  * Handlers for the domain text field.
  */
-urlbuilder.Handlers.DOMAIN = {
+urlbuilder.EventHandler.DOMAIN = {
   'input': function(evt) {
-    urlbuilder.Handlers.defaultInput(evt);
+    urlbuilder.EventHandler.defaultInput(evt);
   }
 };
 
 /**
  * Handlers for the port text field.
  */
-urlbuilder.Handlers.PORT = {
+urlbuilder.EventHandler.PORT = {
   'input': function(evt) {
-    urlbuilder.Handlers.defaultInput(evt);
+    urlbuilder.EventHandler.defaultInput(evt);
   }
 };
 
 /**
  * Handlers for the path text field.
  */
-urlbuilder.Handlers.PATH = {
+urlbuilder.EventHandler.PATH = {
   'input': function(evt) {
-    urlbuilder.Handlers.defaultInput(evt);
+    urlbuilder.EventHandler.defaultInput(evt);
   }
 };
 
@@ -77,7 +83,7 @@ urlbuilder.Handlers.PATH = {
  * Default input behavior for a text field.
  * @param {Event} evt The event object.
  */
-urlbuilder.Handlers.defaultInput = function(evt)
+urlbuilder.EventHandler.defaultInput = function(evt)
 {
   
 };
