@@ -5,5 +5,6 @@ goog.require('urlbuilder.Controller');
 
 urlbuilder.init = function()
 {
-  urlbuilder.Controller.init();
+  var controller = new urlbuilder.Controller();
+  controller.init();
 };
