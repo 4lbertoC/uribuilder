@@ -1,29 +1,42 @@
 
-goog.provide('urlbuilder.UI');
+goog.provide('urlbuilder.Ui');
 
+goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.string');
 
 /**
- * Main class for the UrlBuilder UI.
+ * Main class for the UrlBuilder User Interface.
  * @constructor
  * @private
  */
-urlbuilder.UI = function()
-{};
-
-/**
- * Returns the text field with the given name.
- * @param {!string} fieldName The field name.
- * @return {HTMLElement} The field element.
- */
-urlbuilder.UI.getField = function(fieldName)
+urlbuilder.Ui = function()
 {
-  return goog.dom.getElement(
-    goog.string.buildString(urlbuilder.UI.PREFIX, fieldName)
-  );
+  var textFields = goog.dom.getElementsByClass(urlbuilder.Ui.TEXTFIELD_CLASSNAME);
+  this.textFields_ = {};
+  goog.array.forEach(textFields, function(element)
+  {
+    var id = element.id;
+    if(goog.string.startsWith(id, urlbuilder.Ui.PREFIX))
+    {
+      var elementTag = goog.string.remove(id, urlbuilder.Ui.PREFIX).toUpperCase();
+      this.textFields_[elementTag] = element;
+    }
+  }, this);
 };
 
-urlbuilder.UI.TEXTFIELD_CLASSNAME = 'textfield';
+urlbuilder.Ui.prototype.getTextFields = function()
+{
+ return this.textFields_;
+};
 
-urlbuilder.UI.PREFIX = 't_';
+urlbuilder.Ui.TEXTFIELD_CLASSNAME = 'textfield';
+
+urlbuilder.Ui.PREFIX = 't_';
+
+/**
+ * The text fields
+ * @type {Object.<string, HTMLElement>}
+ */
+urlbuilder.Ui.prototype.textFields_ = null;
+

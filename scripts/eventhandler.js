@@ -9,42 +9,39 @@ goog.require('goog.events.EventTarget');
 goog.require('goog.events.Event');
 goog.require('goog.object');
 goog.require('goog.string');
-goog.require('urlbuilder.UI');
 
 /**
  * Handlers class.
+ * @param {Object.<string, HTMLElement>} elements The input elements.
  * @constructor
  */
-urlbuilder.EventHandler = function(elements, actions)
+urlbuilder.EventHandler = function(elements)
 {
   goog.events.EventTarget.call(this);
+  this.init_(elements);
 };
 goog.inherits(urlbuilder.EventHandler, goog.events.EventTarget);
 
 /**
  * Activate the listeners on the DOM elements.
- * @param {Array.<HTMLElement>} elements The input elements.
+ * @param {Object.<string, HTMLElement>} elements The input elements.
  */
-urlbuilder.EventHandler.prototype.init = function(elements)
+urlbuilder.EventHandler.prototype.init_ = function(elements)
 {
-  goog.array.forEach(elements, function(element)
+  goog.object.forEach(elements, function(element, elementName)
   {
     var id = element['id'];
-    if(goog.string.startsWith(id, urlbuilder.UI.PREFIX))
+    if(goog.isObject(urlbuilder.EventHandler[elementName]))
     {
-      var elementName = goog.string.remove(id, urlbuilder.UI.PREFIX).toUpperCase();
-      if(goog.isObject(urlbuilder.EventHandler[elementName]))
+      goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
       {
-        goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
-        {
-          goog.events.listen(element, eventName, handler, false, this);
-        }, this);
-      }
-      else
-      {
-        // Default behavior for a text field
-        goog.events.listen(element, 'input', this.onFieldInput_, false, this);
-      }
+        goog.events.listen(element, eventName, handler, false, this);
+      }, this);
+    }
+    else
+    {
+      // Default behavior for a text field
+      goog.events.listen(element, 'input', this.onFieldInput_, false, this);
     }
   }, this);
 };

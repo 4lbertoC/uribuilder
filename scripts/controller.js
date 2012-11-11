@@ -5,7 +5,7 @@ goog.provide('urlbuilder.UrlComponents');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('urlbuilder.EventHandler');
-goog.require('urlbuilder.UI');
+goog.require('urlbuilder.Ui');
 goog.require('urlbuilder.UrlEvent');
 
 /** @typedef {{scheme: string, domain: string, port: string,
@@ -25,6 +25,7 @@ urlbuilder.Controller = function()
  */
 urlbuilder.Controller.prototype.init = function()
 {
+  this.initUi_();
   this.initEventHandler_();
   this.initActions_();
 };
@@ -48,9 +49,13 @@ urlbuilder.Controller.prototype.initActions_ = function()
  */
 urlbuilder.Controller.prototype.initEventHandler_ = function()
 {
-  var elements = goog.dom.getElementsByClass(urlbuilder.UI.TEXTFIELD_CLASSNAME);
-  this.eventHandler_ = new urlbuilder.EventHandler();
-  this.eventHandler_.init(elements);
+  var elements = this.ui_.getTextFields();
+  this.eventHandler_ = new urlbuilder.EventHandler(elements);
+};
+
+urlbuilder.Controller.prototype.initUi_ = function()
+{
+  this.ui_ = new urlbuilder.Ui();
 };
 
 /**
@@ -107,3 +112,4 @@ urlbuilder.Controller.prototype.eventHandler_ = null;
  * path, query string and fragment string.
  */
 urlbuilder.Controller.UrlRegExp = '(([^.:\/]*):\/\/)?(([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*)|((([^\.:\/]*)\.)?([^\.:\/]*)\.?([^\.:\/]*)))(:([0-9]*))?([a-zA-Z0-9\/]*)(\?([a-zA-Z0-9=&%]*))?(#([a-zA-Z0-9=&%]*))?';
+
