@@ -1,11 +1,16 @@
 
 goog.provide('urlbuilder.Controller');
+goog.provide('urlbuilder.UrlComponents');
 
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('urlbuilder.EventHandler');
 goog.require('urlbuilder.UI');
 goog.require('urlbuilder.UrlEvent');
+
+/** @typedef {{scheme: string, domain: string, port: string,
+      path: string}} */
+urlbuilder.UrlComponents;
 
 /**
  * The controller class.
@@ -62,6 +67,7 @@ urlbuilder.Controller.composeUrl_ = function()
 /**
  * Parses a url and splits it into its components.
  * @param {string} url The input url.
+ * @return {urlbuilder.UrlComponents} The elements that compose the url.
  * @private
  */
 urlbuilder.Controller.parseUrl_ = function(url)
@@ -95,3 +101,9 @@ urlbuilder.Controller.prototype.onFieldEvent_ = function(evt)
  */
 urlbuilder.Controller.prototype.eventHandler_ = null;
 
+/**
+ * The regular expression used to parse the url.
+ * It divides the url into: scheme, subdomain, domain, port,
+ * path, query string and fragment string.
+ */
+urlbuilder.Controller.UrlRegExp = '(([^.:\/]*):\/\/)?(([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*)|((([^\.:\/]*)\.)?([^\.:\/]*)\.?([^\.:\/]*)))(:([0-9]*))?([a-zA-Z0-9\/]*)(\?([a-zA-Z0-9=&%]*))?(#([a-zA-Z0-9=&%]*))?';

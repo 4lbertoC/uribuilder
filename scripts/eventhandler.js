@@ -33,10 +33,18 @@ urlbuilder.EventHandler.prototype.init = function(elements)
     if(goog.string.startsWith(id, urlbuilder.UI.PREFIX))
     {
       var elementName = goog.string.remove(id, urlbuilder.UI.PREFIX).toUpperCase();
-      goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
+      if(goog.isObject(urlbuilder.EventHandler[elementName]))
       {
-        goog.events.listen(element, eventName, handler, false, this);
-      }, this);
+        goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
+        {
+          goog.events.listen(element, eventName, handler, false, this);
+        }, this);
+      }
+      else
+      {
+        // Default behavior for a text field
+        goog.events.listen(element, 'input', this.onFieldInput_, false, this);
+      }
     }
   }, this);
 };
@@ -48,46 +56,6 @@ urlbuilder.EventHandler.prototype.init = function(elements)
 urlbuilder.EventHandler.URL = {
   'input': function(evt) {
     this.onUrlInput_(evt);
-  }
-};
-
-/**
- * Handlers for the scheme text field.
- * @export
- */
-urlbuilder.EventHandler.SCHEME = {
-  'input': function(evt) {
-    this.onFieldInput_(evt);
-  }
-};
-
-/**
- * Handlers for the domain text field.
- * @export
- */
-urlbuilder.EventHandler.DOMAIN = {
-  'input': function(evt) {
-    this.onFieldInput_(evt);
-  }
-};
-
-/**
- * Handlers for the port text field.
- * @export
- */
-urlbuilder.EventHandler.PORT = {
-  'input': function(evt) {
-    this.onFieldInput_(evt);
-  }
-};
-
-/**
- * Handlers for the path text field.
- * @export
- */
-urlbuilder.EventHandler.PATH = {
-  'input': function(evt) {
-    this.onFieldInput_(evt);
   }
 };
 
