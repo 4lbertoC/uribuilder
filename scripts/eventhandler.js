@@ -43,6 +43,7 @@ urlbuilder.EventHandler.prototype.init = function(elements)
 
 /**
  * Handlers for the URL text field.
+ * @export
  */
 urlbuilder.EventHandler.URL = {
   'input': function(evt) {
@@ -52,6 +53,7 @@ urlbuilder.EventHandler.URL = {
 
 /**
  * Handlers for the scheme text field.
+ * @export
  */
 urlbuilder.EventHandler.SCHEME = {
   'input': function(evt) {
@@ -61,6 +63,7 @@ urlbuilder.EventHandler.SCHEME = {
 
 /**
  * Handlers for the domain text field.
+ * @export
  */
 urlbuilder.EventHandler.DOMAIN = {
   'input': function(evt) {
@@ -70,6 +73,7 @@ urlbuilder.EventHandler.DOMAIN = {
 
 /**
  * Handlers for the port text field.
+ * @export
  */
 urlbuilder.EventHandler.PORT = {
   'input': function(evt) {
@@ -79,6 +83,7 @@ urlbuilder.EventHandler.PORT = {
 
 /**
  * Handlers for the path text field.
+ * @export
  */
 urlbuilder.EventHandler.PATH = {
   'input': function(evt) {
@@ -92,12 +97,16 @@ urlbuilder.EventHandler.PATH = {
  */
 urlbuilder.EventHandler.prototype.onFieldInput_ = function(evt)
 {
-  
+  var target = evt['target'];
+  var genericEvent = new goog.events.Event(
+    urlbuilder.EventHandler.EventType.FIELD, target);
+  this.dispatchEvent(genericEvent);
 };
 
 /**
  * Default input behavior for the url field.
  * @param {Event} evt The event object.
+ * @private
  */
 urlbuilder.EventHandler.prototype.onUrlInput_ = function(evt)
 {
