@@ -1,35 +1,63 @@
 #!/bin/bash
 
-#################
-# URLBUILDER VARS
-#################
+#############################################
+#
+# URLBuilder build script
+# -----------------------
+#
+# Usage:
+#
+#   ./build.sh [dev|prod]
+#
+#
+#############################################
 
-# Path to the urlbuilder files
-PATH="../urlbuilder_static"
+#
+# Load config
+#
+. config.sh
 
-# Prefix to append to each dependency path 
-PREFIX="../../../"$PATH
+#
+# Read custom build mode
+#
+if [ $1 ]; then
+  if [ $1 == "dev" -o $1 == "prod" ]; then
+    BUILDMODE=$1
+  fi
+fi
 
-# Output filename
-DEPSFILENAME="urlbuilder_deps.js"
+#
+# Clean
+#
+/bin/rm -rf $BUILDDIR
 
-#################
-# PYTHON VARS
-#################
+#
+# Create build directory
+#
+/bin/mkdir -p $BUILDDIR
 
-# Directory in which Python is installed
-PYTHON="/usr/bin/python"
+#
+# Dev build
+#
+if [ $BUILDMODE == "dev" ]; then
+  echo "Building development package..."
+  
+  # Create deps file
+  $PYTHON $DEPSWRITERCMD --root_with_prefix=$PATH" "$PREFIX > $BUILDDIR/$DEPSFILENAME
+  # Copy sources
+  /bin/cp -r scripts $BUILDDIR
+  # Uncomment <!--DEV DEV--> and remove <!--PROD PROD--> into index.html
+  /bin/sed -e :a -re 's/<!--PROD.*?PROD-->//g;/<!--/N;//ba' < index.html | /bin/sed -e :a -re 's/<!--DEV(.*?)DEV-->/\1/g;/<!--/N;//ba' > $BUILDDIR/index.html
 
-#################
-# CLOSURE VARS
-#################
+#
+# Prod build
+#
+elif [ $BUILDMODE == "prod" ]; then
+  echo "Building production package..."
+  # Generate compiled file into build dir
+  # TODO
+  # Uncomment <!--PROD PROD--> and remove <!--DEV DEV--> into index.html
+  /bin/sed -e :a -re 's/<!--DEV.*?DEV-->//g;/<!--/N;//ba' < index.html | /bin/sed -e :a -re 's/<!--PROD(.*?)PROD-->/\1/g;/<!--/N;//ba' > $BUILDDIR/index.html
+fi
 
-# Directory in which the Closure Library is installed
-CLOSUREDIR="../extlib/"
-
-# Command to execute to create deps file
-DEPSWRITERCMD=$CLOSUREDIR"closure-library/closure/bin/build/depswriter.py"
-
-# Launch the command
-$PYTHON $DEPSWRITERCMD --root_with_prefix=$PATH" "$PREFIX > $DEPSFILENAME
-
+echo "Done."
