@@ -7,7 +7,7 @@
 #
 # Usage:
 #
-#   ./build.sh [dev|prod]
+#   ./build.sh [dev|prod|WHITESPACE_ONLY|SIMPLE_OPTIMIZATIONS|ADVANCED_OPTIMIZATIONS]
 #
 #
 #############################################
@@ -23,6 +23,16 @@
 if [ $1 ]; then
   if [ $1 == "dev" -o $1 == "prod" ]; then
     BUILD_MODE=$1
+  fi
+fi
+
+#
+# Read custom compilation level
+#
+if [ $1 ]; then
+  if [ $1 == "WHITESPACE_ONLY" -o $1 == "SIMPLE_OPTIMIZATIONS" -o $1 == "ADVANCED_OPTIMIZATIONS" ]; then
+    BUILD_MODE="prod"
+    COMPILATION_LEVEL=$1
   fi
 fi
 
