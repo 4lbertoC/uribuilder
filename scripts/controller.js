@@ -77,7 +77,9 @@ urlbuilder.Controller.composeUrl_ = function()
  */
 urlbuilder.Controller.parseUrl_ = function(url)
 {
-  // TODO
+  var regExp = new RegExp(urlbuilder.Controller.UrlRegExp);
+  var matches = regExp.exec(url);
+  console.log(matches);
 };
 
 /**
@@ -111,5 +113,5 @@ urlbuilder.Controller.prototype.eventHandler_ = null;
  * It divides the url into: scheme, subdomain, domain, port,
  * path, query string and fragment string.
  */
-urlbuilder.Controller.UrlRegExp = '(([^.:\/]*):\/\/)?(([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*)|((([^\.:\/]*)\.)?([^\.:\/]*)\.?([^\.:\/]*)))(:([0-9]*))?([a-zA-Z0-9\/]*)(\?([a-zA-Z0-9=&%]*))?(#([a-zA-Z0-9=&%]*))?';
+urlbuilder.Controller.UrlRegExp = "(([a-z]*)://)?(([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?)";
 

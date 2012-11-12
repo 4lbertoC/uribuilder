@@ -1,4 +1,5 @@
 
+goog.provide('urlbuilder.DomHandler');
 goog.provide('urlbuilder.EventHandler');
 goog.provide('urlbuilder.EventHandler.EventType');
 goog.provide('urlbuilder.UrlEvent');
@@ -31,9 +32,9 @@ urlbuilder.EventHandler.prototype.init_ = function(elements)
   goog.object.forEach(elements, function(element, elementName)
   {
     var id = element['id'];
-    if(goog.isObject(urlbuilder.EventHandler[elementName]))
+    if(goog.isObject(this.DomHandlers[elementName]))
     {
-      goog.object.forEach(urlbuilder.EventHandler[elementName], function(handler, eventName)
+      goog.object.forEach(this.DomHandlers[elementName], function(handler, eventName)
       {
         goog.events.listen(element, eventName, handler, false, this);
       }, this);
@@ -50,10 +51,12 @@ urlbuilder.EventHandler.prototype.init_ = function(elements)
  * Handlers for the URL text field.
  * @export
  */
-urlbuilder.EventHandler.URL = {
-  'input': function(evt) {
-    this.onUrlInput_(evt);
-  }
+urlbuilder.EventHandler.prototype.DomHandlers = {
+	URL: {
+  	'input': function(evt) {
+			this.onUrlInput_(evt);
+		}
+	}
 };
 
 /**
