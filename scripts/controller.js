@@ -77,7 +77,7 @@ urlbuilder.Controller.composeUrl_ = function()
  */
 urlbuilder.Controller.parseUrl_ = function(url)
 {
-  var regExp = new RegExp(urlbuilder.Controller.UrlRegExp);
+  var regExp = new RegExp(urlbuilder.Controller.BaseRegExp);
   var matches = regExp.exec(url);
   console.log(matches);
 };
@@ -107,6 +107,12 @@ urlbuilder.Controller.prototype.onFieldEvent_ = function(evt)
  * @private
  */
 urlbuilder.Controller.prototype.eventHandler_ = null;
+
+/**
+ * The regular expression used to divide the url into
+ * schema, host, port, path, query and fragment
+ */
+urlbuilder.Controller.BaseRegExp = "(([a-z]*)://)?([^\/:]*)(:([0-9]*))?(/([^?#]*)?(\\??([^#]*))?(#?(.*))?)?";
 
 /**
  * The regular expression used to parse the url.
