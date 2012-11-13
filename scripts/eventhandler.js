@@ -13,13 +13,11 @@ goog.require('goog.string');
 
 /**
  * Handlers class.
- * @param {Object.<string, HTMLElement>} elements The input elements.
  * @constructor
  */
-urlbuilder.EventHandler = function(elements)
+urlbuilder.EventHandler = function()
 {
   goog.events.EventTarget.call(this);
-  this.init_(elements);
 };
 goog.inherits(urlbuilder.EventHandler, goog.events.EventTarget);
 
@@ -27,7 +25,7 @@ goog.inherits(urlbuilder.EventHandler, goog.events.EventTarget);
  * Activate the listeners on the DOM elements.
  * @param {Object.<string, HTMLElement>} elements The input elements.
  */
-urlbuilder.EventHandler.prototype.init_ = function(elements)
+urlbuilder.EventHandler.prototype.addDomListeners = function(elements)
 {
   goog.object.forEach(elements, function(element, elementName)
   {

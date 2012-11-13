@@ -25,8 +25,8 @@ urlbuilder.Controller = function()
  */
 urlbuilder.Controller.prototype.init = function()
 {
-  this.initUi_();
   this.initEventHandler_();
+  this.initUi_();
   this.initActions_();
 };
 
@@ -38,9 +38,9 @@ urlbuilder.Controller.prototype.init = function()
 urlbuilder.Controller.prototype.initActions_ = function()
 {
   this.eventHandler_.addEventListener(
-	urlbuilder.EventHandler.EventType.URL, this.onUrlEvent_);
+	urlbuilder.EventHandler.EventType.URL, this.onUrlEvent_, false, this);
   this.eventHandler_.addEventListener(
-	urlbuilder.EventHandler.EventType.FIELD, this.onFieldEvent_);
+	urlbuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
 };
 
 /**
@@ -49,13 +49,14 @@ urlbuilder.Controller.prototype.initActions_ = function()
  */
 urlbuilder.Controller.prototype.initEventHandler_ = function()
 {
-  var elements = this.ui_.getTextFields();
-  this.eventHandler_ = new urlbuilder.EventHandler(elements);
+  this.eventHandler_ = new urlbuilder.EventHandler();
 };
 
 urlbuilder.Controller.prototype.initUi_ = function()
 {
   this.ui_ = new urlbuilder.Ui();
+  var fieldElements = this.ui_.getFieldElements();
+  this.eventHandler_.addDomListeners(fieldElements);
 };
 
 /**
@@ -75,11 +76,16 @@ urlbuilder.Controller.composeUrl_ = function()
  * @return {urlbuilder.UrlComponents} The elements that compose the url.
  * @private
  */
-urlbuilder.Controller.parseUrl_ = function(url)
+urlbuilder.Controller.prototype.parseUrl_ = function(url)
 {
   var regExp = new RegExp(urlbuilder.Controller.BaseRegExp);
   var matches = regExp.exec(url);
-  console.log(matches);
+  var values = {};
+  values[urlbuilder.Ui.FieldName.SCHEME] = matches[2];
+  values[urlbuilder.Ui.FieldName.DOMAIN] = matches[4];
+  values[urlbuilder.Ui.FieldName.PORT] = matches[6];
+  values[urlbuilder.Ui.FieldName.PATH] = matches[7];
+  this.ui_.setFieldValues(values, true);
 };
 
 /**
@@ -90,7 +96,7 @@ urlbuilder.Controller.parseUrl_ = function(url)
 urlbuilder.Controller.prototype.onUrlEvent_ = function(evt)
 {
   var url = evt.url;
-  urlbuilder.Controller.parseUrl_(url);
+  this.parseUrl_(url);
 };
 
 /**
@@ -109,10 +115,24 @@ urlbuilder.Controller.prototype.onFieldEvent_ = function(evt)
 urlbuilder.Controller.prototype.eventHandler_ = null;
 
 /**
- * The regular expression used to divide the url into
- * schema, host, port, path, query and fragment
+ * The ui instance.
+ * @type {urlbuilder.Ui}
+ * @private
  */
-urlbuilder.Controller.BaseRegExp = "(([a-z]*)://)?([^\/:]*)(:([0-9]*))?(/([^?#]*)?(\\??([^#]*))?(#?(.*))?)?";
+urlbuilder.Controller.prototype.ui_ = null;
+
+/**
+ * The regular expression used to divide the url into:
+ * <ul>
+ * <li>[2]: scheme</li>
+ * <li>[4]: authority</li>
+ * <li>[6]: port</li>
+ * <li>[8]: path</li>
+ * <li>[10]: query</li>
+ * </li>[12]: fragment</li>
+ *
+ */
+urlbuilder.Controller.BaseRegExp = "(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]*)?)?(\\??([^#]*))?(#?(.*))?";
 
 /**
  * The regular expression used to parse the url.
