@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 goog.provide('urlbuilder.Ui');
 goog.provide('urlbuilder.Ui.FieldName');
@@ -10,18 +10,19 @@ goog.require('goog.string');
 /**
  * Main class for the UrlBuilder User Interface.
  * @constructor
- * @private
  */
 urlbuilder.Ui = function()
 {
-  var textFields = goog.dom.getElementsByClass(urlbuilder.Ui.TEXTFIELD_CLASSNAME);
+  var textFields =
+    goog.dom.getElementsByClass(urlbuilder.Ui.TEXTFIELD_CLASSNAME);
   this.textFields_ = {};
   goog.array.forEach(textFields, function(element)
   {
     var id = element.id;
-    if(goog.string.startsWith(id, urlbuilder.Ui.PREFIX))
+    if (goog.string.startsWith(id, urlbuilder.Ui.PREFIX))
     {
-      var elementTag = goog.string.remove(id, urlbuilder.Ui.PREFIX).toUpperCase();
+      var elementTag =
+        goog.string.remove(id, urlbuilder.Ui.PREFIX).toUpperCase();
       this.textFields_[elementTag] = element;
     }
   }, this);
@@ -58,7 +59,7 @@ urlbuilder.Ui.prototype.resetFieldValues = function(includeUrl)
   includeUrl = includeUrl || false;
   goog.object.forEach(this.textFields_, function(element, fieldName)
   {
-    if((fieldName != urlbuilder.Ui.FieldName.URL) || includeUrl)
+    if ((fieldName != urlbuilder.Ui.FieldName.URL) || includeUrl)
     {
       element.value = '';
     }
@@ -73,13 +74,13 @@ urlbuilder.Ui.prototype.resetFieldValues = function(includeUrl)
  */
 urlbuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
 {
-  if(resetBefore)
+  if (resetBefore)
   {
     this.resetFieldValues();
   }
   goog.object.forEach(values, function(value, fieldName)
   {
-    if(goog.isDef(value) && 
+    if (goog.isDef(value) &&
         goog.object.containsKey(this.textFields_, fieldName))
     {
       this.textFields_[fieldName].value = value;
@@ -87,6 +88,10 @@ urlbuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
   }, this);
 };
 
+/**
+ * Names of the fields that compose the Ui.
+ * @enum {string}
+ */
 urlbuilder.Ui.FieldName = {
   URL: 'URL',
   SCHEME: 'SCHEME',
@@ -98,13 +103,22 @@ urlbuilder.Ui.FieldName = {
   FRAGMENT: 'FRAGMENT'
 };
 
+/**
+ * Class used by the text fields.
+ * @type {string}
+ */
 urlbuilder.Ui.TEXTFIELD_CLASSNAME = 'textfield';
 
+/**
+ * Prefix used in the fields id's.
+ * @enum {string}
+ */
 urlbuilder.Ui.PREFIX = 't_';
 
 /**
  * The text fields
  * @type {Object.<string, HTMLElement>}
+ * @private
  */
 urlbuilder.Ui.prototype.textFields_ = null;
 

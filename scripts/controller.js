@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 goog.provide('urlbuilder.Controller');
 goog.provide('urlbuilder.UrlComponents');
@@ -9,8 +9,8 @@ goog.require('urlbuilder.EventHandler');
 goog.require('urlbuilder.Ui');
 goog.require('urlbuilder.UrlEvent');
 
-/** @typedef {{scheme: string, domain: string, port: string,
-      path: string}} */
+/** @typedef {{SCHEME: string, DOMAIN: string, PORT: string,
+      PATH: string}} */
 urlbuilder.UrlComponents;
 
 /**
@@ -22,7 +22,6 @@ urlbuilder.Controller = function()
 
 /**
  * Initialize the UI.
- * @private
  */
 urlbuilder.Controller.prototype.init = function()
 {
@@ -39,9 +38,9 @@ urlbuilder.Controller.prototype.init = function()
 urlbuilder.Controller.prototype.initActions_ = function()
 {
   this.eventHandler_.addEventListener(
-	urlbuilder.EventHandler.EventType.URL, this.onUrlEvent_, false, this);
+    urlbuilder.EventHandler.EventType.URL, this.onUrlEvent_, false, this);
   this.eventHandler_.addEventListener(
-	urlbuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
+    urlbuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
 };
 
 /**
@@ -53,6 +52,10 @@ urlbuilder.Controller.prototype.initEventHandler_ = function()
   this.eventHandler_ = new urlbuilder.EventHandler();
 };
 
+/**
+ * Initializes the Ui.
+ * @private
+ */
 urlbuilder.Controller.prototype.initUi_ = function()
 {
   this.ui_ = new urlbuilder.Ui();
@@ -63,7 +66,6 @@ urlbuilder.Controller.prototype.initUi_ = function()
 /**
  * Composes the url into the url text field from the
  * data contained in the other fields.
- * @param {string} url The input url.
  * @private
  */
 urlbuilder.Controller.composeUrl_ = function()
@@ -86,7 +88,7 @@ urlbuilder.Controller.prototype.parseUrl_ = function(url)
   values[urlbuilder.Ui.FieldName.DOMAIN] = matches[4];
   values[urlbuilder.Ui.FieldName.PORT] = matches[6];
   values[urlbuilder.Ui.FieldName.PATH] = matches[7];
-  this.ui_.setFieldValues(values, true);
+  return values;
 };
 
 /**
@@ -97,7 +99,8 @@ urlbuilder.Controller.prototype.parseUrl_ = function(url)
 urlbuilder.Controller.prototype.onUrlEvent_ = function(evt)
 {
   var url = evt.url;
-  this.parseUrl_(url);
+  var values = this.parseUrl_(url);
+  this.ui_.setFieldValues(values, true);
 };
 
 /**
@@ -133,12 +136,14 @@ urlbuilder.Controller.prototype.ui_ = null;
  * </li>[12]: fragment</li>
  *
  */
-urlbuilder.Controller.BaseRegExp = "(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]*)?)?(\\??([^#]*))?(#?(.*))?";
+urlbuilder.Controller.BaseRegExp =
+  '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]*)?)?(\\??([^#]*))?(#?(.*))?';
 
 /**
  * The regular expression used to parse the url.
  * It divides the url into: scheme, subdomain, domain, port,
  * path, query string and fragment string.
  */
-urlbuilder.Controller.UrlRegExp = "(([a-z]*)://)?(([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?)";
+urlbuilder.Controller.UrlRegExp =
+'(([a-z]*)://)?(([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?)';
 
