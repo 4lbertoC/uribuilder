@@ -2,7 +2,6 @@
 
 goog.provide('urlbuilder.EventHandler');
 goog.provide('urlbuilder.EventHandler.EventType');
-goog.provide('urlbuilder.HandlersFactory');
 goog.provide('urlbuilder.UrlEvent');
 
 goog.require('goog.array');
@@ -11,10 +10,12 @@ goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
 goog.require('goog.object');
 goog.require('goog.string');
+goog.require('urlbuilder.HandlerFactory');
 
 /**
  * Handlers class.
  * @constructor
+ * @extends {goog.events.EventTarget}
  */
 urlbuilder.EventHandler = function()
 {
@@ -28,16 +29,19 @@ goog.inherits(urlbuilder.EventHandler, goog.events.EventTarget);
  */
 urlbuilder.EventHandler.prototype.addDomListeners = function(elements)
 {
+  var factory = urlbuilder.HandlerFactory.getInstance();
   goog.object.forEach(elements, function(element, elementName)
   {
     var id = element['id'];
-    if (goog.isObject(urlbuilder.EventHandler.DomHandlers[elementName]))
+    if (factory.containsName(elementName))
     {
       goog.object.forEach(
-        urlbuilder.EventHandler.DomHandlers[elementName],
+        factory.getHandlerMap(elementName),
         function(handler, eventName)
         {
-          goog.events.listen(element, eventName, handler, false, this);
+          var handlerWithContext =
+            factory.getHandlerWithContext(elementName, eventName, this);
+          goog.events.listen(element, eventName, handlerWithContext);
         }, this);
     }
     else
@@ -46,21 +50,6 @@ urlbuilder.EventHandler.prototype.addDomListeners = function(elements)
       goog.events.listen(element, 'input', this.onFieldInput_, false, this);
     }
   }, this);
-};
-
-/**
- * Handlers for the URL text field.
- * @enum {Object}
- * @this {urlbuilder.EventHandler}
- * @suppress {globalThis}
- * @export
- */
-urlbuilder.EventHandler.DomHandlers = {
-  URL: {
-    'input': function(evt) {
-      this.onUrlInput_(evt);
-    }
-  }
 };
 
 /**
