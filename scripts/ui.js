@@ -1,3 +1,4 @@
+"use strict";
 
 goog.provide('urlbuilder.Ui');
 goog.provide('urlbuilder.Ui.FieldName');

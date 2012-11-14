@@ -1,3 +1,4 @@
+"use strict";
 
 goog.provide('urlbuilder.Controller');
 goog.provide('urlbuilder.UrlComponents');

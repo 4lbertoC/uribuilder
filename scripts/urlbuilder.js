@@ -1,3 +1,4 @@
+"use strict";
 
 goog.provide('urlbuilder');
 
