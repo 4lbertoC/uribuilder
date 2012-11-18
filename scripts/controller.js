@@ -139,11 +139,3 @@ urlbuilder.Controller.prototype.ui_ = null;
 urlbuilder.Controller.BaseRegExp =
   '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]*)?)?(\\??([^#]*))?(#?(.*))?';
 
-/**
- * The regular expression used to parse the url.
- * It divides the url into: scheme, subdomain, domain, port,
- * path, query string and fragment string.
- */
-urlbuilder.Controller.UrlRegExp =
-'(([a-z]*)://)?(([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?([a-z]*)?\.?)';
-

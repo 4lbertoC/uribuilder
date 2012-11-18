@@ -107,7 +107,7 @@ urlbuilder.Ui.FieldName = {
  * Class used by the text fields.
  * @type {string}
  */
-urlbuilder.Ui.TEXTFIELD_CLASSNAME = 'textfield';
+urlbuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
 
 /**
  * Prefix used in the fields id's.

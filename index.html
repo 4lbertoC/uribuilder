@@ -1,53 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset=utf-8></meta>
   <title>URL Builder</title>
-  <link rel="stylesheet" href="style/ubstyle.css"></link>
+  <link rel="stylesheet" href="ubstyle.css"></link>
 </head>
 <body>
-  <a href="https://github.com/4lbertoC/urlbuilder"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
-  <div class="verybigtitle">URL Builder</div>
-  <div class="title bigtitle">URL Builder</div>
-  <div class="mainframe">
-    <div class="inputcontainer">
-       <div class="title">Complete URL</div>
-       <textarea id="t_url" class="textfield" placeholder="http[s]://domain/ ..."></textarea>
-    </div>
-    <div class="inputcontainer" style="width: 15%; margin-right: 1%;">
-       <div class="title">Scheme</div>
-       <input id="t_scheme" class="textfield" type="text" placeholder="http | ftp ..."></input>
-    </div>
-    <div class="inputcontainer" style="width: 3%;">
-	<span class="middlesymbol">&nbsp;<p>://</p></span>
-    </div>
-    <div class="inputcontainer" style="width: 22%; margin-left: 1%;">
-       <div class="title">Sub Domain</div>
-       <input id="t_subdomain" class="textfield" type="text" placeholder="???"></input>
-    </div>
-    <div class="inputcontainer" style="width: 42%; margin-left: 1%;">
-       <div class="title">Domain</div>
-       <input id="t_domain" class="textfield" type="text" placeholder="?????.com"></input>
-    </div>
-    <div class="inputcontainer" style="width: 1%; margin: 0px 1%;">
-	<span class="middlesymbol">&nbsp;<p>:</p></span>
-    </div>
-    <div class="inputcontainer" style="width: 12%;">
-       <div class="title">Port</div>
-       <input id="t_port" class="textfield" type="text" placeholder="1 - 65535"></input>
-    </div>
-    <div class="inputcontainer">
-       <div class="title">Path</div>
-       <input id="t_path" class="textfield" type="text" placeholder="/path/to/something"></input>
-    </div>
-  </div>
-  <div class="mainframe">
-    <div class="title">Query Parameters</div>
-  </div>
+  <a href="https://github.com/4lbertoC/urlbuilder"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub" width="149px" height="149px"></a>
 <!--DEV
   <script src="${CLOSURE_LIBRARY_PATH}/closure/goog/base.js"></script>
   <script src="urlbuilder_deps.js"></script>
   <script>
+    goog.require('soy');
     goog.require('urlbuilder');
   </script>
 DEV-->

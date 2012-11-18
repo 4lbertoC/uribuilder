@@ -39,53 +39,124 @@ fi
 #
 # Clean
 #
-rm -rf $BUILD_DIR
+rm -rf $BUILD_PATH
 
 #
 # Create build directory
 #
-mkdir -p $BUILD_DIR
+mkdir -p $BUILD_PATH
+
+#
+# Create temporary directory
+#
+TEMP_DIR="tmp"
+mkdir -p $TEMP_DIR
 
 #
 # Dev build
 #
 if [ $BUILD_MODE == "dev" ]; then
   echo "Building development package..."
-  
-  # Escape Closure dir to be used in sed
+
+  echo "Minify CSS"
+  java -jar $CLOSURE_STYLESHEETS_CMD \
+            style/*.css \
+            --pretty-print \
+            --output-file $BUILD_PATH/ubstyle.css
+
+  echo "Set index.soy.js dir"
+  INDEX_SOY_JS=$TEMP_DIR/$INDEX_SOY_JS
+
+  echo "Generate index.html filler from template"
+  java -jar $CLOSURE_TEMPLATES_PATH"/SoyToJsSrcCompiler.jar" \
+            --codeStyle concat \
+            --shouldProvideRequireSoyNamespaces \
+            --cssHandlingScheme GOOG \
+            --outputPathFormat $INDEX_SOY_JS \
+            templates/index.soy
+
+  # Escape Closure dirs to be used in sed
   SAFE_CLOSURE_LIBRARY_PATH=$(printf "%s\n" "$CLOSURE_LIBRARY_PATH" | sed 's/[][\.*^$/]/\\&/g')
-  # Prefix to append to each dependency path 
-  PREFIX="../../../../"$SCRIPTS_PATH
-  # Create deps file
-  $PYTHON $DEPSWRITER_CMD --root_with_prefix=$SCRIPTS_PATH" "$PREFIX > $BUILD_DIR/$DEPS_FILENAME
+  SAFE_CLOSURE_TEMPLATES_PATH=$(printf "%s\n" "$CLOSURE_TEMPLATES_PATH" | sed 's/[][\.*^$/]/\\&/g')
+  # Prefix to append to scripts path
+  PREFIX="../../../"
+  echo "Create deps file"
+  $PYTHON $DEPSWRITER_CMD \
+          --root_with_prefix=$SCRIPTS_PATH" "$PREFIX$UB_PATH$SCRIPTS_FOLDER \
+          --root_with_prefix=$TEMP_DIR" "$PREFIX$UB_PATH$SCRIPTS_FOLDER \
+          --root_with_prefix=$CLOSURE_TEMPLATES_PATH" "$PREFIX$CLOSURE_TEMPLATES_PATH > $BUILD_PATH/$DEPS_FILENAME
+
+  echo "Copy source files"
+  cp -r $SCRIPTS_PATH $BUILD_PATH
+  cp -r $INDEX_SOY_JS $BUILD_PATH$SCRIPTS_FOLDER
+
+  echo "Replace variables in index.html"
+  cat index.html |
   # Remove <!--PROD PROD--> into index.html
-  sed -e :a -re 's/<!--PROD.*?PROD-->//g;/<!--/N;//ba' < index.html | 
+  sed -e :a -re 's/<!--PROD.*?PROD-->//g;/<!--/N;//ba' | 
   # Uncomment <!--DEV DEV--> into index.html
   sed -e :a -re 's/<!--DEV(.*?)DEV-->/\1/g;/<!--/N;//ba' |
-  # Replace Closure Library directory
-  sed -e 's/\${CLOSURE_LIBRARY_PATH}/..\/'$SAFE_CLOSURE_LIBRARY_PATH'/g' > $BUILD_DIR/index.html
+  # Replace variables directory
+  sed -e 's/\${CLOSURE_LIBRARY_PATH}/..\/'$SAFE_CLOSURE_LIBRARY_PATH'/g' |
+  sed -e 's/\${CLOSURE_TEMPLATES_PATH}/..\/'$SAFE_CLOSURE_TEMPLATES_PATH'/g' > $BUILD_PATH/index.html
 
 #
 # Prod build
 #
 elif [ $BUILD_MODE == "prod" ]; then
   echo "Building production package..."
-  # Generate compiled file into build dir
-  $PYTHON $CLOSUREBUILDER_CMD --root=$CLOSURE_LIBRARY_PATH/ \
-                             --root=$SCRIPTS_PATH/ \
-                             --namespace="urlbuilder" \
-                             --output_mode=compiled \
-                             --compiler_jar=$CLOSURE_COMPILER_PATH/compiler.jar \
-                             --compiler_flags="--compilation_level=$COMPILATION_LEVEL" \
-                             > $BUILD_DIR/urlbuilder.min.js
+
+  INDEX_SOY_JS=$TEMP_DIR/$INDEX_SOY_JS
+  RENAME_MAP_NAME=$TEMP_DIR/$RENAME_MAP_NAME
+
+  echo "Minify CSS"
+  java -jar $CLOSURE_STYLESHEETS_CMD \
+            style/*.css \
+            --output-file $BUILD_PATH/ubstyle.css \
+            --rename CLOSURE \
+            --output-renaming-map-format CLOSURE_COMPILED \
+            --output-renaming-map $RENAME_MAP_NAME
+
+  echo "Generate index.html filler from template"
+  java -jar $CLOSURE_TEMPLATES_PATH"/SoyToJsSrcCompiler.jar" \
+            --codeStyle concat \
+            --shouldProvideRequireSoyNamespaces \
+            --cssHandlingScheme GOOG \
+            --outputPathFormat $INDEX_SOY_JS \
+            --isUsingIjData \
+            templates/index.soy
+
+  echo "Generate compiled file into build dir"
+  $PYTHON $CLOSUREBUILDER_CMD --root=$CLOSURE_LIBRARY_PATH \
+          --root=$SCRIPTS_PATH \
+          --root=$TEMP_DIR \
+          --root=$CLOSURE_TEMPLATES_PATH \
+          --namespace="urlbuilder" \
+          --output_mode=compiled \
+          --compiler_jar=$CLOSURE_COMPILER_PATH/compiler.jar \
+          --compiler_flags="--compilation_level=$COMPILATION_LEVEL" \
+          --compiler_flags="--js=$RENAME_MAP_NAME" > $BUILD_PATH/urlbuilder.min.js
+                   
+  echo "Replace variables in index.html"          
+  cat index.html |
   # Remove <!--DEV DEV--> into index.html
-  sed -e :a -re 's/<!--DEV.*?DEV-->//g;/<!--/N;//ba' < index.html |
+  sed -e :a -re 's/<!--DEV.*?DEV-->//g;/<!--/N;//ba' |
   # Uncomment <!--PROD PROD--> into index.html
-  sed -e :a -re 's/<!--PROD(.*?)PROD-->/\1/g;/<!--/N;//ba' > $BUILD_DIR/index.html
+  sed -e :a -re 's/<!--PROD(.*?)PROD-->/\1/g;/<!--/N;//ba' > $BUILD_PATH/index.html
+
+  echo "Gzip the files"
+  mkdir $BUILD_PATH/gzipped
+  cp $BUILD_PATH/*.js $BUILD_PATH/gzipped
+  cp $BUILD_PATH/*.css $BUILD_PATH/gzipped
+  gzip $BUILD_PATH/gzipped/* -r
+  mv $BUILD_PATH/gzipped/* $BUILD_PATH
+  rm -r $BUILD_PATH/gzipped
 fi
 
-# Copy style
-cp -r style $BUILD_DIR
+#
+# Delete temporary directory
+#
+rm -rf $TEMP_DIR
 
 echo "Done."
 
