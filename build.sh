@@ -145,12 +145,10 @@ elif [ $BUILD_MODE == "prod" ]; then
   sed -e :a -re 's/<!--PROD(.*?)PROD-->/\1/g;/<!--/N;//ba' > $BUILD_PATH/index.html
 
   echo "Gzip the files"
-  mkdir $BUILD_PATH/gzipped
-  cp $BUILD_PATH/*.js $BUILD_PATH/gzipped
-  cp $BUILD_PATH/*.css $BUILD_PATH/gzipped
-  gzip $BUILD_PATH/gzipped/* -r
-  mv $BUILD_PATH/gzipped/* $BUILD_PATH
-  rm -r $BUILD_PATH/gzipped
+  mkdir $TEMP_DIR/gzipped
+  cp $BUILD_PATH/* $TEMP_DIR/gzipped
+  gzip $TEMP_DIR/gzipped/* -r
+  mv $TEMP_DIR/gzipped/* $BUILD_PATH
 fi
 
 #

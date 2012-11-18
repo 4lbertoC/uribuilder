@@ -21,7 +21,7 @@ DEPS_FILENAME="urlbuilder_deps.js"
 #################
 
 # Output dir relative to the Closure Library
-BUILD_PATH="/usr/share/jetty/webapps/urlbuilder"
+BUILD_PATH=$JETTY_HOME"/webapps/urlbuilder"
 # BUILD_DIR="../urlbuilder/build"
 
 # Build mode (dev|prod)
