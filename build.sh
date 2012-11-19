@@ -140,10 +140,6 @@ elif [ $BUILD_MODE == "prod" ]; then
           --compiler_flags="--source_map_format=V3" \
           --compiler_flags="--compilation_level=$COMPILATION_LEVEL" > $BUILD_PATH/urlbuilder.min.js
 
-  if [ $COPY_SOURCE_MAPS ]; then
-    cp $TEMP_DIR/$SOURCE_MAP_NAME $BUILD_PATH
-  fi
-                   
   echo "Replace variables in index.html"          
   cat index.html |
   # Remove <!--DEV DEV--> into index.html
@@ -156,6 +152,13 @@ elif [ $BUILD_MODE == "prod" ]; then
   cp $BUILD_PATH/* $TEMP_DIR/gzipped
   gzip $TEMP_DIR/gzipped/* -r
   mv $TEMP_DIR/gzipped/* $BUILD_PATH
+
+  if [ $COPY_SOURCE == true ]; then
+    echo "Copy source files"
+    cp -r $SCRIPTS_PATH $BUILD_PATH
+    cp -r $INDEX_SOY_JS $BUILD_PATH$SCRIPTS_FOLDER
+    cp $TEMP_DIR/$SOURCE_MAP_NAME $BUILD_PATH
+  fi
 fi
 
 #

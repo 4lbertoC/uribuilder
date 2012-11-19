@@ -69,10 +69,10 @@ COMPILATION_LEVEL="ADVANCED_OPTIMIZATIONS"
 SOURCE_MAP_NAME="urlbuilder.min.js.map"
 
 # The location in which the browser will search for the source map
-SOURCE_MAP_URL=$BUILD_PATH"/"$SOURCE_MAP_NAME
+SOURCE_MAP_URL=$SOURCE_MAP_NAME
 
 # Copy the source maps to the build folder
-COPY_SOURCE_MAPS=true
+COPY_SOURCE=false
 
 # CSS rename map name
 RENAME_MAP_NAME="rename-map.js"
