@@ -65,11 +65,11 @@ CLOSURE_STYLESHEETS_CMD=$CLOSURE_STYLESHEETS_PATH"/closure-stylesheets-20111230.
 # Compilation level
 COMPILATION_LEVEL="ADVANCED_OPTIMIZATIONS"
 
-# Where the source maps will be stored
-SOURCE_MAP_PATH="urlbuilder.min.js.map"
+# Name of the source map file
+SOURCE_MAP_NAME="urlbuilder.min.js.map"
 
-# The url of the source map indicated in the compiled source file
-SOURCE_MAP_URL=$BUILD_PATH"/"$SOURCE_MAP_PATH
+# The location in which the browser will search for the source map
+SOURCE_MAP_URL=$BUILD_PATH"/"$SOURCE_MAP_NAME
 
 # Copy the source maps to the build folder
 COPY_SOURCE_MAPS=true

@@ -136,12 +136,12 @@ elif [ $BUILD_MODE == "prod" ]; then
           --compiler_jar=$CLOSURE_COMPILER_PATH/compiler.jar \
           --compiler_flags="--js=$RENAME_MAP_NAME" \
           --compiler_flags='--output_wrapper="(function() {%output%})();  //@ sourceMappingURL='$SOURCE_MAP_URL'"' \
-          --compiler_flags="--create_source_map=$SOURCE_MAP_PATH" \
+          --compiler_flags="--create_source_map=$TEMP_DIR/$SOURCE_MAP_NAME" \
           --compiler_flags="--source_map_format=V3" \
           --compiler_flags="--compilation_level=$COMPILATION_LEVEL" > $BUILD_PATH/urlbuilder.min.js
 
   if [ $COPY_SOURCE_MAPS ]; then
-    cp $SOURCE_MAP_PATH $BUILD_PATH
+    cp $TEMP_DIR/$SOURCE_MAP_NAME $BUILD_PATH
   fi
                    
   echo "Replace variables in index.html"          
