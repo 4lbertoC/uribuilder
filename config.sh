@@ -21,8 +21,8 @@ DEPS_FILENAME="urlbuilder_deps.js"
 #################
 
 # Output dir relative to the Closure Library
-BUILD_PATH=$JETTY_HOME"/webapps/urlbuilder"
-# BUILD_DIR="../urlbuilder/build"
+BUILD_PATH="/usr/share/jetty/webapps/urlbuilder"
+# BUILD_PATH="../urlbuilder/build"
 
 # Build mode (dev|prod)
 BUILD_MODE="prod"
@@ -64,6 +64,15 @@ CLOSURE_STYLESHEETS_CMD=$CLOSURE_STYLESHEETS_PATH"/closure-stylesheets-20111230.
 
 # Compilation level
 COMPILATION_LEVEL="ADVANCED_OPTIMIZATIONS"
+
+# Where the source maps will be stored
+SOURCE_MAP_PATH="urlbuilder.min.js.map"
+
+# The url of the source map indicated in the compiled source file
+SOURCE_MAP_URL=$BUILD_PATH"/"$SOURCE_MAP_PATH
+
+# Copy the source maps to the build folder
+COPY_SOURCE_MAPS=true
 
 # CSS rename map name
 RENAME_MAP_NAME="rename-map.js"

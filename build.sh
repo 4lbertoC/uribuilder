@@ -134,8 +134,15 @@ elif [ $BUILD_MODE == "prod" ]; then
           --namespace="urlbuilder" \
           --output_mode=compiled \
           --compiler_jar=$CLOSURE_COMPILER_PATH/compiler.jar \
-          --compiler_flags="--compilation_level=$COMPILATION_LEVEL" \
-          --compiler_flags="--js=$RENAME_MAP_NAME" > $BUILD_PATH/urlbuilder.min.js
+          --compiler_flags="--js=$RENAME_MAP_NAME" \
+          --compiler_flags='--output_wrapper="(function() {%output%})();  //@ sourceMappingURL='$SOURCE_MAP_URL'"' \
+          --compiler_flags="--create_source_map=$SOURCE_MAP_PATH" \
+          --compiler_flags="--source_map_format=V3" \
+          --compiler_flags="--compilation_level=$COMPILATION_LEVEL" > $BUILD_PATH/urlbuilder.min.js
+
+  if [ $COPY_SOURCE_MAPS ]; then
+    cp $SOURCE_MAP_PATH $BUILD_PATH
+  fi
                    
   echo "Replace variables in index.html"          
   cat index.html |
@@ -156,6 +163,6 @@ fi
 #
 rm -rf $TEMP_DIR
 
-echo "Done."
+echo "Web app created into $BUILD_PATH"
 
 
