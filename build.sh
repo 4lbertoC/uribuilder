@@ -53,6 +53,12 @@ TEMP_DIR="tmp"
 mkdir -p $TEMP_DIR
 
 #
+# Create directory for generated files
+#
+GEN_DIR="gen"
+mkdir -p $GEN_DIR
+
+#
 # Dev build
 #
 if [ $BUILD_MODE == "dev" ]; then
@@ -106,7 +112,7 @@ if [ $BUILD_MODE == "dev" ]; then
 elif [ $BUILD_MODE == "prod" ]; then
   echo "Building production package..."
 
-  INDEX_SOY_JS=$TEMP_DIR/$INDEX_SOY_JS
+  INDEX_SOY_JS=$GEN_DIR/$INDEX_SOY_JS
   RENAME_MAP_NAME=$TEMP_DIR/$RENAME_MAP_NAME
 
   echo "Minify CSS"
@@ -130,6 +136,7 @@ elif [ $BUILD_MODE == "prod" ]; then
   $PYTHON $CLOSUREBUILDER_CMD --root=$CLOSURE_LIBRARY_PATH \
           --root=$SCRIPTS_PATH \
           --root=$TEMP_DIR \
+          --root=$GEN_DIR \
           --root=$CLOSURE_TEMPLATES_PATH \
           --namespace="urlbuilder" \
           --output_mode=compiled \
@@ -157,14 +164,16 @@ elif [ $BUILD_MODE == "prod" ]; then
     echo "Copy source files"
     cp -r $SCRIPTS_PATH $BUILD_PATH
     cp -r $INDEX_SOY_JS $BUILD_PATH$SCRIPTS_FOLDER
+    cp -r $GEN_DIR $BUILD_PATH
     cp $TEMP_DIR/$SOURCE_MAP_NAME $BUILD_PATH
-  fi
+  fi  
 fi
 
 #
 # Delete temporary directory
 #
 rm -rf $TEMP_DIR
+rm -rf $GEN_DIR
 
 echo "Web app created into $BUILD_PATH"
 
