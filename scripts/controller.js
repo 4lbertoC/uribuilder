@@ -87,7 +87,10 @@ urlbuilder.Controller.prototype.parseUrl_ = function(url)
   values[urlbuilder.Ui.FieldName.SCHEME] = matches[2];
   values[urlbuilder.Ui.FieldName.DOMAIN] = matches[4];
   values[urlbuilder.Ui.FieldName.PORT] = matches[6];
-  values[urlbuilder.Ui.FieldName.PATH] = matches[7];
+  if(matches[8] !== undefined)
+  {
+    values[urlbuilder.Ui.FieldName.PATH] = matches[7];
+  }
   return values;
 };
 
@@ -137,5 +140,5 @@ urlbuilder.Controller.prototype.ui_ = null;
  *
  */
 urlbuilder.Controller.BaseRegExp =
-  '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]*)?)?(\\??([^#]*))?(#?(.*))?';
+  '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]+)?)?(\\??([^#]*))?(#?(.*))?';
 
