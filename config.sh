@@ -72,7 +72,7 @@ SOURCE_MAP_NAME="urlbuilder.min.js.map"
 SOURCE_MAP_URL=$SOURCE_MAP_NAME
 
 # Copy the source maps to the build folder
-COPY_SOURCE=false
+COPY_SOURCE=true
 
 # CSS rename map name
 RENAME_MAP_NAME="rename-map.js"
