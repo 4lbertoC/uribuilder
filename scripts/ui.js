@@ -1,28 +1,28 @@
 'use strict';
 
-goog.provide('urlbuilder.Ui');
-goog.provide('urlbuilder.Ui.FieldName');
+goog.provide('uribuilder.Ui');
+goog.provide('uribuilder.Ui.FieldName');
 
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.string');
 
 /**
- * Main class for the UrlBuilder User Interface.
+ * Main class for the URIBuilder User Interface.
  * @constructor
  */
-urlbuilder.Ui = function()
+uribuilder.Ui = function()
 {
   var textFields =
-    goog.dom.getElementsByClass(urlbuilder.Ui.TEXTFIELD_CLASSNAME);
+    goog.dom.getElementsByClass(uribuilder.Ui.TEXTFIELD_CLASSNAME);
   this.textFields_ = {};
   goog.array.forEach(textFields, function(element)
   {
     var id = element.id;
-    if (goog.string.startsWith(id, urlbuilder.Ui.PREFIX))
+    if (goog.string.startsWith(id, uribuilder.Ui.PREFIX))
     {
       var elementTag =
-        goog.string.remove(id, urlbuilder.Ui.PREFIX).toUpperCase();
+        goog.string.remove(id, uribuilder.Ui.PREFIX).toUpperCase();
       this.textFields_[elementTag] = element;
     }
   }, this);
@@ -32,7 +32,7 @@ urlbuilder.Ui = function()
  * Return the field elements that compose the UI.
  * @return {Array.<HTMLElement>} The field elements.
  */
-urlbuilder.Ui.prototype.getFieldElements = function()
+uribuilder.Ui.prototype.getFieldElements = function()
 {
   return this.textFields_;
 };
@@ -41,7 +41,7 @@ urlbuilder.Ui.prototype.getFieldElements = function()
  * Return the value of the text fields.
  * @return {Object.<string, string>} The mapping <fieldName, value>.
  */
-urlbuilder.Ui.prototype.getFieldValues = function()
+uribuilder.Ui.prototype.getFieldValues = function()
 {
   var values = goog.object.map(this.textFields_, function(element)
   {
@@ -52,14 +52,14 @@ urlbuilder.Ui.prototype.getFieldValues = function()
 
 /**
  * Reset the value of the fields.
- * @param {boolean} includeUrl Also resets the Url.
+ * @param {boolean} includeUri Also resets the Uri.
  */
-urlbuilder.Ui.prototype.resetFieldValues = function(includeUrl)
+uribuilder.Ui.prototype.resetFieldValues = function(includeUri)
 {
-  includeUrl = includeUrl || false;
+  includeUri = includeUri || false;
   goog.object.forEach(this.textFields_, function(element, fieldName)
   {
-    if ((fieldName != urlbuilder.Ui.FieldName.URL) || includeUrl)
+    if ((fieldName != uribuilder.Ui.FieldName.URI) || includeUri)
     {
       element.value = '';
     }
@@ -72,7 +72,7 @@ urlbuilder.Ui.prototype.resetFieldValues = function(includeUrl)
  * @param {boolean} resetBefore Resets the value of all the fields before
  *  doing the action.
  */
-urlbuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
+uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
 {
   if (resetBefore)
   {
@@ -92,8 +92,8 @@ urlbuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
  * Names of the fields that compose the Ui.
  * @enum {string}
  */
-urlbuilder.Ui.FieldName = {
-  URL: 'URL',
+uribuilder.Ui.FieldName = {
+  URI: 'URI',
   SCHEME: 'SCHEME',
   SUBDOMAIN: 'SUBDOMAIN',
   DOMAIN: 'DOMAIN',
@@ -107,18 +107,18 @@ urlbuilder.Ui.FieldName = {
  * Class used by the text fields.
  * @type {string}
  */
-urlbuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
+uribuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
 
 /**
  * Prefix used in the fields id's.
  * @enum {string}
  */
-urlbuilder.Ui.PREFIX = 't_';
+uribuilder.Ui.PREFIX = 't_';
 
 /**
  * The text fields
  * @type {Object.<string, HTMLElement>}
  * @private
  */
-urlbuilder.Ui.prototype.textFields_ = null;
+uribuilder.Ui.prototype.textFields_ = null;
 

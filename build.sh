@@ -2,7 +2,7 @@
 
 #############################################
 #
-# URLBuilder build script
+# URIBuilder build script
 # -----------------------
 #
 # Usage:
@@ -138,14 +138,14 @@ elif [ $BUILD_MODE == "prod" ]; then
           --root=$TEMP_DIR \
           --root=$GEN_DIR \
           --root=$CLOSURE_TEMPLATES_PATH \
-          --namespace="urlbuilder" \
+          --namespace="uribuilder" \
           --output_mode=compiled \
           --compiler_jar=$CLOSURE_COMPILER_PATH/compiler.jar \
           --compiler_flags="--js=$RENAME_MAP_NAME" \
           --compiler_flags='--output_wrapper="(function() {%output%})();  //@ sourceMappingURL='$SOURCE_MAP_URL'"' \
           --compiler_flags="--create_source_map=$TEMP_DIR/$SOURCE_MAP_NAME" \
           --compiler_flags="--source_map_format=V3" \
-          --compiler_flags="--compilation_level=$COMPILATION_LEVEL" > $BUILD_PATH/urlbuilder.min.js
+          --compiler_flags="--compilation_level=$COMPILATION_LEVEL" > $BUILD_PATH/uribuilder.min.js
 
   echo "Replace variables in index.html"          
   cat index.html |

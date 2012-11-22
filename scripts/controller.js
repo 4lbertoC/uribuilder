@@ -1,29 +1,29 @@
 'use strict';
 
-goog.provide('urlbuilder.Controller');
-goog.provide('urlbuilder.UrlComponents');
+goog.provide('uribuilder.Controller');
+goog.provide('uribuilder.UriComponents');
 
 goog.require('goog.dom');
 goog.require('goog.events');
-goog.require('urlbuilder.EventHandler');
-goog.require('urlbuilder.Ui');
-goog.require('urlbuilder.UrlEvent');
+goog.require('uribuilder.EventHandler');
+goog.require('uribuilder.Ui');
+goog.require('uribuilder.UriEvent');
 
 /** @typedef {{SCHEME: string, DOMAIN: string, PORT: string,
       PATH: string}} */
-urlbuilder.UrlComponents;
+uribuilder.UriComponents;
 
 /**
  * The controller class.
  * @constructor
  */
-urlbuilder.Controller = function()
+uribuilder.Controller = function()
 {};
 
 /**
  * Initialize the UI.
  */
-urlbuilder.Controller.prototype.init = function()
+uribuilder.Controller.prototype.init = function()
 {
   this.initEventHandler_();
   this.initUi_();
@@ -35,74 +35,74 @@ urlbuilder.Controller.prototype.init = function()
  * to the Controller functions.
  * @private
  */
-urlbuilder.Controller.prototype.initActions_ = function()
+uribuilder.Controller.prototype.initActions_ = function()
 {
   this.eventHandler_.addEventListener(
-    urlbuilder.EventHandler.EventType.URL, this.onUrlEvent_, false, this);
+    uribuilder.EventHandler.EventType.URI, this.onUriEvent_, false, this);
   this.eventHandler_.addEventListener(
-    urlbuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
+    uribuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
 };
 
 /**
  * Activates the DOM elements listeners.
  * @private
  */
-urlbuilder.Controller.prototype.initEventHandler_ = function()
+uribuilder.Controller.prototype.initEventHandler_ = function()
 {
-  this.eventHandler_ = new urlbuilder.EventHandler();
+  this.eventHandler_ = new uribuilder.EventHandler();
 };
 
 /**
  * Initializes the Ui.
  * @private
  */
-urlbuilder.Controller.prototype.initUi_ = function()
+uribuilder.Controller.prototype.initUi_ = function()
 {
-  this.ui_ = new urlbuilder.Ui();
+  this.ui_ = new uribuilder.Ui();
   var fieldElements = this.ui_.getFieldElements();
   this.eventHandler_.addDomListeners(fieldElements);
 };
 
 /**
- * Composes the url into the url text field from the
+ * Composes the uri into the uri text field from the
  * data contained in the other fields.
  * @private
  */
-urlbuilder.Controller.composeUrl_ = function()
+uribuilder.Controller.composeUri_ = function()
 {
   // TODO
 };
 
 /**
- * Parses a url and splits it into its components.
- * @param {string} url The input url.
- * @return {urlbuilder.UrlComponents} The elements that compose the url.
+ * Parses a uri and splits it into its components.
+ * @param {string} uri The input uri.
+ * @return {uribuilder.UriComponents} The elements that compose the uri.
  * @private
  */
-urlbuilder.Controller.prototype.parseUrl_ = function(url)
+uribuilder.Controller.prototype.parseUri_ = function(uri)
 {
-  var regExp = new RegExp(urlbuilder.Controller.BaseRegExp);
-  var matches = regExp.exec(url);
+  var regExp = new RegExp(uribuilder.Controller.BaseRegExp);
+  var matches = regExp.exec(uri);
   var values = {};
-  values[urlbuilder.Ui.FieldName.SCHEME] = matches[2];
-  values[urlbuilder.Ui.FieldName.DOMAIN] = matches[4];
-  values[urlbuilder.Ui.FieldName.PORT] = matches[6];
+  values[uribuilder.Ui.FieldName.SCHEME] = matches[2];
+  values[uribuilder.Ui.FieldName.DOMAIN] = matches[4];
+  values[uribuilder.Ui.FieldName.PORT] = matches[6];
   if(matches[8] !== undefined)
   {
-    values[urlbuilder.Ui.FieldName.PATH] = matches[7];
+    values[uribuilder.Ui.FieldName.PATH] = matches[7];
   }
   return values;
 };
 
 /**
- * Handles a Url event.
- * @param {urlbuilder.UrlEvent} evt The Url event.
+ * Handles a Uri event.
+ * @param {uribuilder.UriEvent} evt The Uri event.
  * @private
  */
-urlbuilder.Controller.prototype.onUrlEvent_ = function(evt)
+uribuilder.Controller.prototype.onUriEvent_ = function(evt)
 {
-  var url = evt.url;
-  var values = this.parseUrl_(url);
+  var uri = evt.uri;
+  var values = this.parseUri_(uri);
   this.ui_.setFieldValues(values, true);
 };
 
@@ -111,25 +111,25 @@ urlbuilder.Controller.prototype.onUrlEvent_ = function(evt)
  * @param {goog.events.Event} evt The event.
  * @private
  */
-urlbuilder.Controller.prototype.onFieldEvent_ = function(evt)
+uribuilder.Controller.prototype.onFieldEvent_ = function(evt)
 {};
 
 /**
  * The event handler instance.
- * @type {urlbuilder.EventHandler}
+ * @type {uribuilder.EventHandler}
  * @private
  */
-urlbuilder.Controller.prototype.eventHandler_ = null;
+uribuilder.Controller.prototype.eventHandler_ = null;
 
 /**
  * The ui instance.
- * @type {urlbuilder.Ui}
+ * @type {uribuilder.Ui}
  * @private
  */
-urlbuilder.Controller.prototype.ui_ = null;
+uribuilder.Controller.prototype.ui_ = null;
 
 /**
- * The regular expression used to divide the url into:
+ * The regular expression used to divide the uri into:
  * <ul>
  * <li>[2]: scheme</li>
  * <li>[4]: authority</li>
@@ -139,6 +139,6 @@ urlbuilder.Controller.prototype.ui_ = null;
  * </li>[12]: fragment</li>
  *
  */
-urlbuilder.Controller.BaseRegExp =
+uribuilder.Controller.BaseRegExp =
   '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]+)?)?(\\??([^#]*))?(#?(.*))?';
 

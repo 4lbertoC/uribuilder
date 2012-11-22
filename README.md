@@ -1,6 +1,6 @@
-URL Builder
+URI Builder
 ===========
-The tool allows to build a URL from its components and viceversa. This includes schema, domain, port, path, query parameters and fragment.
+The tool allows to build a URI from its components and viceversa. This includes schema, domain, port, path, query parameters and fragment.
 
 Resources
 ---------

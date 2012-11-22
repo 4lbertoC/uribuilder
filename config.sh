@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #################
-# URLBUILDER VARS
+# uribuilder VARS
 #################
 
-# UrlBuilder's path relative to the Closure Library
-UB_PATH="../urlbuilder"
+# uribuilder's path relative to the Closure Library
+UB_PATH="../uribuilder"
 
 # Folder in which the scripts are contained
 SCRIPTS_FOLDER="/scripts"
@@ -14,15 +14,15 @@ SCRIPTS_FOLDER="/scripts"
 SCRIPTS_PATH=$UB_PATH$SCRIPTS_FOLDER
 
 # Output filename [DEV-ONLY]
-DEPS_FILENAME="urlbuilder_deps.js"
+DEPS_FILENAME="uribuilder_deps.js"
 
 #################
 # BUILD OPTIONS
 #################
 
 # Output dir relative to the Closure Library
-BUILD_PATH="/usr/share/jetty/webapps/urlbuilder"
-# BUILD_PATH="../urlbuilder/build"
+BUILD_PATH="/usr/share/jetty/webapps/uribuilder"
+# BUILD_PATH="../uribuilder/build"
 
 # Build mode (dev|prod)
 BUILD_MODE="prod"
@@ -66,7 +66,7 @@ CLOSURE_STYLESHEETS_CMD=$CLOSURE_STYLESHEETS_PATH"/closure-stylesheets-20111230.
 COMPILATION_LEVEL="ADVANCED_OPTIMIZATIONS"
 
 # Name of the source map file
-SOURCE_MAP_NAME="urlbuilder.min.js.map"
+SOURCE_MAP_NAME="uribuilder.min.js.map"
 
 # The location in which the browser will search for the source map
 SOURCE_MAP_URL=$SOURCE_MAP_NAME
