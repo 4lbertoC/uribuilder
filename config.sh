@@ -21,8 +21,8 @@ DEPS_FILENAME="uribuilder_deps.js"
 #################
 
 # Output dir relative to the Closure Library
-BUILD_PATH="/usr/share/jetty/webapps/uribuilder"
-# BUILD_PATH="../uribuilder/build"
+# BUILD_PATH="/usr/share/jetty/webapps/uribuilder"
+BUILD_PATH="../_deploy/uribuild/static"
 
 # Build mode (dev|prod)
 BUILD_MODE="prod"

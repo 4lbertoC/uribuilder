@@ -41,7 +41,7 @@ uribuilder.Ui = function()
       this.toggleElements_[elementTag] = element;
       goog.events.listen(element, 'click', function()
       {
-        goog.dom.classes.toggle(element, uribuilder.Ui.TOGGLE_CLASSNAME);
+        goog.dom.classes.toggle(element, uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
       }, this);
     }
   }, this);
@@ -86,7 +86,7 @@ uribuilder.Ui.prototype.getToggleValues = function()
 {
   var values = goog.object.map(this.toggleElements_, function(element)
   {
-    return !goog.dom.classes.has(element, uribuilder.Ui.TOGGLE_CLASSNAME);
+    return !goog.dom.classes.has(element, uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
   }, this);
   return values;
 };
@@ -114,7 +114,14 @@ uribuilder.Ui.prototype.resetToggleElements = function()
 {
   goog.object.forEach(this.toggleElements_, function(element, fieldName)
   {
-    goog.dom.classes.add(element, 'toggle');
+    if(element.getAttribute('data-default-state') === 'on')
+    {
+      goog.dom.classes.remove(element, uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
+    }
+    else
+    {
+      goog.dom.classes.add(element, uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
+    }
   });
 };
 
@@ -154,12 +161,12 @@ uribuilder.Ui.prototype.setToggleElements = function(toggles)
       if (toggle)
       {
         goog.dom.classes.remove(this.toggleElements_[fieldName],
-          uribuilder.Ui.TOGGLE_CLASSNAME);
+          uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
       }
       else
       {
         goog.dom.classes.add(this.toggleElements_[fieldName],
-          uribuilder.Ui.TOGGLE_CLASSNAME);
+          uribuilder.Ui.TOGGLE_OFF_CLASSNAME);
       }
     }
   }, this);
@@ -205,6 +212,12 @@ uribuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
  * @type {string}
  */
 uribuilder.Ui.TOGGLE_CLASSNAME = goog.getCssName('toggle');
+
+/**
+ * Class used when the toggles are active.
+ * @type {string}
+ */
+uribuilder.Ui.TOGGLE_OFF_CLASSNAME = goog.getCssName('off');
 
 /**
  * The text fields.

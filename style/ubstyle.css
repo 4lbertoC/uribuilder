@@ -108,11 +108,11 @@ body {
   font-family: courier;
 }
 
-.toggle {
+.off {
   opacity: 0.2;
 }
 
-.clickable {
+.toggle {
   cursor: pointer;
 }
 
