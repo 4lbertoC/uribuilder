@@ -143,15 +143,15 @@ uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
 
 /**
  * Set whether to enable the toggle elements.
- * @param {Object.<string, boolean>} The map of the elements.
+ * @param {Object.<string, boolean>} toggles The map of the elements.
  */
-uribuilder.Ui.prototype.setToggleElements = function(toggle)
+uribuilder.Ui.prototype.setToggleElements = function(toggles)
 {
-  goog.object.forEach(toggle, function(value, fieldName)
+  goog.object.forEach(toggles, function(toggle, fieldName)
   {
     if (goog.object.containsKey(this.toggleElements_, fieldName))
     {
-      if(value)
+      if (toggle)
       {
         goog.dom.classes.remove(this.toggleElements_[fieldName],
           uribuilder.Ui.TOGGLE_CLASSNAME);

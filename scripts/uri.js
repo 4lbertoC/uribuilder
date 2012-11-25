@@ -9,18 +9,19 @@ goog.require('goog.string');
  * @param {string} opt_uri The string to parse into a Uri.
  * @constructor
  */
-uribuilder.Uri = function(uri)
+uribuilder.Uri = function(opt_uri)
 {
   this.setUri(uri);
 };
 
 /**
  * Build the uri string based on its components.
+ * @private
  */
 uribuilder.Uri.prototype.composeUri_ = function()
 {
   var scheme = this.scheme_ ? this.scheme_ + ':' : '';
-  if(scheme.length > 0 && this.doubleSlash_)
+  if (scheme.length > 0 && this.doubleSlash_)
   {
     scheme += '//';
   }
@@ -28,7 +29,7 @@ uribuilder.Uri.prototype.composeUri_ = function()
   var port = this.port_ ? ':' + this.port_ : '';
   var path = this.path_;
   var query = this.query_ ? '?' + this.query_ : '';
-  var fragment = this.fragment_ ? '#' + this.fragment_ : '';;
+  var fragment = this.fragment_ ? '#' + this.fragment_ : '';
   this.rawUri_ = goog.string.buildString(
     scheme + domain + port + path + query + fragment);
 };
@@ -43,13 +44,13 @@ uribuilder.Uri.prototype.createComponents_ = function(uri)
   var regExp = new RegExp(uribuilder.Uri.BaseRegExp_);
   var matches = regExp.exec(uri);
   this.scheme_ = matches[2];
-  if(matches[3] !== undefined)
+  if (matches[3] !== undefined)
   {
     this.doubleSlash_ = true;
   }
   this.domain_ = matches[4];
   this.port_ = matches[6];
-  if(matches[8] !== undefined)
+  if (matches[8] !== undefined)
   {
     this.path_ = matches[7];
   }
@@ -142,7 +143,7 @@ uribuilder.Uri.prototype.hasDoubleSlash = function()
  */
 uribuilder.Uri.prototype.setDomain = function(domain)
 {
-  if(goog.isString(domain))
+  if (goog.isString(domain))
   {
     this.domain_ = domain;
   }
@@ -154,7 +155,7 @@ uribuilder.Uri.prototype.setDomain = function(domain)
  */
 uribuilder.Uri.prototype.setFragment = function(fragment)
 {
-  if(goog.isString(fragment))
+  if (goog.isString(fragment))
   {
     this.fragment_ = fragment;
   }
@@ -166,7 +167,7 @@ uribuilder.Uri.prototype.setFragment = function(fragment)
  */
 uribuilder.Uri.prototype.setPath = function(path)
 {
-  if(goog.isString(path))
+  if (goog.isString(path))
   {
     this.path_ = path;
   }
@@ -178,7 +179,7 @@ uribuilder.Uri.prototype.setPath = function(path)
  */
 uribuilder.Uri.prototype.setPort = function(port)
 {
-  if(goog.isString(port))
+  if (goog.isString(port))
   {
     this.port_ = port;
   }
@@ -190,7 +191,7 @@ uribuilder.Uri.prototype.setPort = function(port)
  */
 uribuilder.Uri.prototype.setQuery = function(query)
 {
-  if(goog.isString(query))
+  if (goog.isString(query))
   {
     this.query_ = query;
   }
@@ -202,7 +203,7 @@ uribuilder.Uri.prototype.setQuery = function(query)
  */
 uribuilder.Uri.prototype.setScheme = function(scheme)
 {
-  if(goog.isString(scheme))
+  if (goog.isString(scheme))
   {
     this.scheme_ = scheme;
   }
@@ -214,7 +215,7 @@ uribuilder.Uri.prototype.setScheme = function(scheme)
  */
 uribuilder.Uri.prototype.setDoubleSlash = function(doubleSlash)
 {
-  if(goog.isBoolean(doubleSlash))
+  if (goog.isBoolean(doubleSlash))
   {
     this.doubleSlash_ = doubleSlash;
   }
@@ -227,7 +228,7 @@ uribuilder.Uri.prototype.setDoubleSlash = function(doubleSlash)
  */
 uribuilder.Uri.prototype.setUri = function(uri)
 {
-  if(goog.isString(uri))
+  if (goog.isString(uri))
   {
     this.reset_();
     this.rawUri_ = uri;

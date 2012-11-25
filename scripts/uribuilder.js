@@ -10,7 +10,7 @@ goog.require('uribuilder.HtmlElements');
  */
 uribuilder.init = function()
 {
-	document.write(uribuilder.HtmlElements.indexPage());
+  document.write(uribuilder.HtmlElements.indexPage());
   var controller = new uribuilder.Controller();
   controller.init();
 };

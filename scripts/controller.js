@@ -114,6 +114,7 @@ uribuilder.Controller.prototype.onToggleEvent_ = function(evt)
  * Set the Uri to the given string and send the components
  * to the view.
  * @param {string} uri The given Uri.
+ * @private
  */
 uribuilder.Controller.prototype.processUri_ = function(uri)
 {
@@ -159,5 +160,6 @@ uribuilder.Controller.prototype.ui_ = null;
 /**
  * The current Uri.
  * @type {uribuilder.Uri}
+ * @private
  */
 uribuilder.Controller.prototype.uri_ = null;

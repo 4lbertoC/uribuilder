@@ -46,7 +46,7 @@ uribuilder.EventHandler.prototype.addDomListeners = function(elements)
     }
     else
     {
-      if(element.type === 'text')
+      if (element.type === 'text')
       {
         // Default behavior for a text field
         goog.events.listen(element, 'input', this.onFieldInput_, false, this);

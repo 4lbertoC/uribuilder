@@ -7,7 +7,6 @@ goog.require('goog.object');
 /**
  * An event handler factory.
  * @constructor
- * @private
  */
 uribuilder.HandlerFactory = function()
 {
