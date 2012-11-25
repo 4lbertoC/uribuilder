@@ -7,6 +7,7 @@ goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('uribuilder.EventHandler');
 goog.require('uribuilder.Ui');
+goog.require('uribuilder.Uri');
 goog.require('uribuilder.UriEvent');
 
 /** @typedef {{SCHEME: string, DOMAIN: string, PORT: string,
@@ -21,6 +22,16 @@ uribuilder.Controller = function()
 {};
 
 /**
+ * Composes the uri into the uri text field from the
+ * data contained in the other fields.
+ * @private
+ */
+uribuilder.Controller.composeUri_ = function()
+{
+  // TODO
+};
+
+/**
  * Initialize the UI.
  */
 uribuilder.Controller.prototype.init = function()
@@ -28,6 +39,7 @@ uribuilder.Controller.prototype.init = function()
   this.initEventHandler_();
   this.initUi_();
   this.initActions_();
+  this.uri_ = new uribuilder.Uri();
 };
 
 /**
@@ -64,57 +76,43 @@ uribuilder.Controller.prototype.initUi_ = function()
 };
 
 /**
- * Composes the uri into the uri text field from the
- * data contained in the other fields.
- * @private
- */
-uribuilder.Controller.composeUri_ = function()
-{
-  // TODO
-};
-
-/**
- * Parses a uri and splits it into its components.
- * @param {string} uri The input uri.
- * @return {uribuilder.UriComponents} The elements that compose the uri.
- * @private
- */
-uribuilder.Controller.prototype.parseUri_ = function(uri)
-{
-  var regExp = new RegExp(uribuilder.Controller.BaseRegExp);
-  var matches = regExp.exec(uri);
-  var values = {};
-  values[uribuilder.Ui.FieldName.SCHEME] = matches[2];
-  values[uribuilder.Ui.FieldName.DOMAIN] = matches[4];
-  values[uribuilder.Ui.FieldName.PORT] = matches[6];
-  if(matches[8] !== undefined)
-  {
-    values[uribuilder.Ui.FieldName.PATH] = matches[7];
-  }
-  values[uribuilder.Ui.FieldName.QUERY] = matches[10];
-  values[uribuilder.Ui.FieldName.FRAGMENT] = matches[12];
-  return values;
-};
-
-/**
- * Handles a Uri event.
+ * Handle a Uri event.
  * @param {uribuilder.UriEvent} evt The Uri event.
  * @private
  */
 uribuilder.Controller.prototype.onUriEvent_ = function(evt)
 {
-  var uri = evt.uri;
-  var values = this.parseUri_(uri);
-  this.ui_.setFieldValues(values, true);
+  this.processUri_(evt.uri);
 };
 
 /**
- * Handles the event of field modification.
+ * Handle the event of field modification.
  * @param {goog.events.Event} evt The event.
  * @private
  */
 uribuilder.Controller.prototype.onFieldEvent_ = function(evt)
 {};
+
+/**
+ * Set the Uri to the given string and send the components
+ * to the view.
+ * @param {string} uri The given Uri.
+ */
+uribuilder.Controller.prototype.processUri_ = function(uri)
+{
+  this.uri_.setUri(uri);
+  var values = {};
+  var hidden = {};
+  values[uribuilder.Ui.FieldName.SCHEME] = this.uri_.getScheme();
+  values[uribuilder.Ui.FieldName.DOMAIN] = this.uri_.getDomain();
+  values[uribuilder.Ui.FieldName.PORT] = this.uri_.getPort();
+  values[uribuilder.Ui.FieldName.PATH] = this.uri_.getPath();
+  values[uribuilder.Ui.FieldName.QUERY] = this.uri_.getQuery();
+  values[uribuilder.Ui.FieldName.FRAGMENT] = this.uri_.getFragment();
+  hidden[uribuilder.Ui.HiddenElementName.DOUBLESLASH] = this.uri_.hasDoubleSlash();
+  this.ui_.setFieldValues(values, true);
+  this.ui_.setHiddenElements(hidden);
+};
 
 /**
  * The event handler instance.
@@ -131,16 +129,7 @@ uribuilder.Controller.prototype.eventHandler_ = null;
 uribuilder.Controller.prototype.ui_ = null;
 
 /**
- * The regular expression used to divide the uri into:
- * <ul>
- * <li>[2]: scheme</li>
- * <li>[4]: authority</li>
- * <li>[6]: port</li>
- * <li>[8]: path</li>
- * <li>[10]: query</li>
- * </li>[12]: fragment</li>
- *
+ * The current Uri.
+ * @type {uribuilder.Uri}
  */
-uribuilder.Controller.BaseRegExp =
-  '(([a-z]*):)?(//)?([^\/:\\?#]*)(:([0-9]*))?(/([^?#]+)?)?(\\??([^#]*))?(#?(.*))?';
-
+uribuilder.Controller.prototype.uri_ = null;

@@ -99,3 +99,7 @@ body {
   background-color: lightgoldenrodyellow;
   font-family: courier;
 }
+
+.hidden {
+  visibility: hidden;
+}

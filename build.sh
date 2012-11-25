@@ -21,10 +21,10 @@
 # Read custom build mode
 #
 if [ $1 ]; then
-  if [ $1 == "dev" -o $1 == "prod" ]; then
+  if [ $1 == "debug" ]; then
     BUILD_MODE=$1
   elif [ $1 == "WHITESPACE_ONLY" -o $1 == "SIMPLE_OPTIMIZATIONS" -o $1 == "ADVANCED_OPTIMIZATIONS" ]; then
-    BUILD_MODE="prod"
+    BUILD_MODE=""
     COMPILATION_LEVEL=$1
   fi
 fi
@@ -54,7 +54,7 @@ mkdir -p $GEN_DIR
 #
 # Dev build
 #
-if [ $BUILD_MODE == "dev" ]; then
+if [ $BUILD_MODE == "debug" ]; then
   echo "Building development package..."
 
   echo "Minify CSS"
@@ -102,7 +102,7 @@ if [ $BUILD_MODE == "dev" ]; then
 #
 # Prod build
 #
-elif [ $BUILD_MODE == "prod" ]; then
+else
   echo "Building production package..."
 
   INDEX_SOY_JS=$GEN_DIR/$INDEX_SOY_JS
