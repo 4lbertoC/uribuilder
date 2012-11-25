@@ -102,16 +102,16 @@ uribuilder.Controller.prototype.processUri_ = function(uri)
 {
   this.uri_.setUri(uri);
   var values = {};
-  var hidden = {};
+  var toggle = {};
   values[uribuilder.Ui.FieldName.SCHEME] = this.uri_.getScheme();
   values[uribuilder.Ui.FieldName.DOMAIN] = this.uri_.getDomain();
   values[uribuilder.Ui.FieldName.PORT] = this.uri_.getPort();
   values[uribuilder.Ui.FieldName.PATH] = this.uri_.getPath();
   values[uribuilder.Ui.FieldName.QUERY] = this.uri_.getQuery();
   values[uribuilder.Ui.FieldName.FRAGMENT] = this.uri_.getFragment();
-  hidden[uribuilder.Ui.HiddenElementName.DOUBLESLASH] = this.uri_.hasDoubleSlash();
+  toggle[uribuilder.Ui.ToggleName.DOUBLESLASH] = this.uri_.hasDoubleSlash();
   this.ui_.setFieldValues(values, true);
-  this.ui_.setHiddenElements(hidden);
+  this.ui_.setToggles(toggle);
 };
 
 /**

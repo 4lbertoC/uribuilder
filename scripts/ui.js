@@ -16,10 +16,10 @@ uribuilder.Ui = function()
 {
   var textFields =
     goog.dom.getElementsByClass(uribuilder.Ui.TEXTFIELD_CLASSNAME);
-  var hiddenElements =
-    goog.dom.getElementsByClass(uribuilder.Ui.HIDDEN_CLASSNAME);
+  var toggles =
+    goog.dom.getElementsByClass(uribuilder.Ui.TOGGLE_CLASSNAME);
   this.textFields_ = {};
-  this.hiddenElements_ = {};
+  this.toggles_ = {};
   goog.array.forEach(textFields, function(element)
   {
     var id = element.id;
@@ -30,14 +30,14 @@ uribuilder.Ui = function()
       this.textFields_[elementTag] = element;
     }
   }, this);
-  goog.array.forEach(hiddenElements, function(element)
+  goog.array.forEach(toggles, function(element)
   {
     var id = element.id;
     if (goog.string.startsWith(id, uribuilder.Ui.PREFIX))
     {
       var elementTag =
         goog.string.remove(id, uribuilder.Ui.PREFIX).toUpperCase();
-      this.hiddenElements_[elementTag] = element;
+      this.toggles_[elementTag] = element;
     }
   }, this);
 };
@@ -81,13 +81,13 @@ uribuilder.Ui.prototype.resetFieldValues = function(includeUri)
 };
 
 /**
- * Hide again those elements that are hidden by default.
+ * Reset the elements that are untoggled by default.
  */
-uribuilder.Ui.prototype.resetHiddenElements = function()
+uribuilder.Ui.prototype.resetToggles = function()
 {
-  goog.object.forEach(this.hiddenElements_, function(element, fieldName)
+  goog.object.forEach(this.toggles_, function(element, fieldName)
   {
-    goog.dom.classes.add(element, 'hidden');
+    goog.dom.classes.add(element, 'toggle');
   });
 };
 
@@ -102,7 +102,7 @@ uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
   if (resetBefore)
   {
     this.resetFieldValues();
-    this.resetHiddenElements();
+    this.resetToggles();
   }
   goog.object.forEach(values, function(value, fieldName)
   {
@@ -115,34 +115,34 @@ uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
 };
 
 /**
- * Set whether to display the hidden elements.
+ * Set whether to enable the toggle elements.
  * @param {Object.<string, boolean>} The map of the elements.
  */
-uribuilder.Ui.prototype.setHiddenElements = function(hidden)
+uribuilder.Ui.prototype.setToggles = function(toggle)
 {
-  goog.object.forEach(hidden, function(value, fieldName)
+  goog.object.forEach(toggle, function(value, fieldName)
   {
-    if (goog.object.containsKey(this.hiddenElements_, fieldName))
+    if (goog.object.containsKey(this.toggles_, fieldName))
     {
       if(value)
       {
-        goog.dom.classes.remove(this.hiddenElements_[fieldName],
-          uribuilder.Ui.HIDDEN_CLASSNAME);
+        goog.dom.classes.remove(this.toggles_[fieldName],
+          uribuilder.Ui.TOGGLE_CLASSNAME);
       }
       else
       {
-        goog.dom.classes.add(this.hiddenElements_[fieldName],
-          uribuilder.Ui.HIDDEN_CLASSNAME);
+        goog.dom.classes.add(this.toggles_[fieldName],
+          uribuilder.Ui.TOGGLE_CLASSNAME);
       }
     }
   }, this);
 };
 
 /**
- * Names of the fields that are hidden by default.
+ * Names of the toggle elements.
  * @enum {string}
  */
-uribuilder.Ui.HiddenElementName = {
+uribuilder.Ui.ToggleName = {
   DOUBLESLASH: 'DOUBLESLASH'
 };
 
@@ -168,10 +168,10 @@ uribuilder.Ui.FieldName = {
 uribuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
 
 /**
- * Class used by the hidden elements.
+ * Class used by the toggle elements.
  * @type {string}
  */
-uribuilder.Ui.HIDDEN_CLASSNAME = goog.getCssName('hidden');
+uribuilder.Ui.TOGGLE_CLASSNAME = goog.getCssName('toggle');
 
 /**
  * Prefix used in the fields id's.
