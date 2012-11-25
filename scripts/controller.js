@@ -91,6 +91,8 @@ uribuilder.Controller.prototype.parseUri_ = function(uri)
   {
     values[uribuilder.Ui.FieldName.PATH] = matches[7];
   }
+  values[uribuilder.Ui.FieldName.QUERY] = matches[10];
+  values[uribuilder.Ui.FieldName.FRAGMENT] = matches[12];
   return values;
 };
 
