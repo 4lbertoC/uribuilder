@@ -46,8 +46,11 @@ uribuilder.EventHandler.prototype.addDomListeners = function(elements)
     }
     else
     {
-      // Default behavior for a text field
-      goog.events.listen(element, 'input', this.onFieldInput_, false, this);
+      if(element.type === 'text')
+      {
+        // Default behavior for a text field
+        goog.events.listen(element, 'input', this.onFieldInput_, false, this);
+      }
     }
   }, this);
 };
@@ -70,6 +73,19 @@ uribuilder.EventHandler.prototype.onFieldInput_ = function(evt)
  * @param {Event} evt The event object.
  * @private
  */
+uribuilder.EventHandler.prototype.onToggleClick_ = function(evt)
+{
+  var target = evt['target'];
+  var genericEvent = new goog.events.Event(
+    uribuilder.EventHandler.EventType.TOGGLE, target);
+  this.dispatchEvent(genericEvent);
+};
+
+/**
+ * Default input behavior for the uri field.
+ * @param {Event} evt The event object.
+ * @private
+ */
 uribuilder.EventHandler.prototype.onUriInput_ = function(evt)
 {
   var target = evt['target'];
@@ -84,7 +100,8 @@ uribuilder.EventHandler.prototype.onUriInput_ = function(evt)
  */
 uribuilder.EventHandler.EventType = {
   URI: 'uri',
-  FIELD: 'field'
+  FIELD: 'field',
+  TOGGLE: 'toggle'
 };
 
 /**

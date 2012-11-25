@@ -16,6 +16,11 @@ uribuilder.HandlerFactory = function()
       'input': function(evt) {
         this.onUriInput_(evt);
       }
+    },
+    'DOUBLESLASH': {
+      'click': function(evt) {
+        this.onToggleClick_(evt);
+      }
     }
   };
 };

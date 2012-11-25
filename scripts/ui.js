@@ -6,6 +6,7 @@ goog.provide('uribuilder.Ui.FieldName');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.classes');
+goog.require('goog.events');
 goog.require('goog.string');
 
 /**
@@ -38,6 +39,10 @@ uribuilder.Ui = function()
       var elementTag =
         goog.string.remove(id, uribuilder.Ui.PREFIX).toUpperCase();
       this.toggleElements_[elementTag] = element;
+      goog.events.listen(element, 'click', function()
+      {
+        goog.dom.classes.toggle(element, uribuilder.Ui.TOGGLE_CLASSNAME);
+      }, this);
     }
   }, this);
 };
@@ -161,14 +166,6 @@ uribuilder.Ui.prototype.setToggleElements = function(toggle)
 };
 
 /**
- * Names of the toggle elements.
- * @enum {string}
- */
-uribuilder.Ui.ToggleName = {
-  DOUBLESLASH: 'DOUBLESLASH'
-};
-
-/**
  * Names of the fields that compose the Ui.
  * @enum {string}
  */
@@ -184,6 +181,20 @@ uribuilder.Ui.FieldName = {
 };
 
 /**
+ * Names of the toggle elements.
+ * @enum {string}
+ */
+uribuilder.Ui.ToggleName = {
+  DOUBLESLASH: 'DOUBLESLASH'
+};
+
+/**
+ * Prefix used in the fields id's.
+ * @enum {string}
+ */
+uribuilder.Ui.PREFIX = 't_';
+
+/**
  * Class used by the text fields.
  * @type {string}
  */
@@ -194,12 +205,6 @@ uribuilder.Ui.TEXTFIELD_CLASSNAME = goog.getCssName('textfield');
  * @type {string}
  */
 uribuilder.Ui.TOGGLE_CLASSNAME = goog.getCssName('toggle');
-
-/**
- * Prefix used in the fields id's.
- * @enum {string}
- */
-uribuilder.Ui.PREFIX = 't_';
 
 /**
  * The text fields.

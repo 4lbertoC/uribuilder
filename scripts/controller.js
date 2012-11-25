@@ -5,6 +5,7 @@ goog.provide('uribuilder.UriComponents');
 
 goog.require('goog.dom');
 goog.require('goog.events');
+goog.require('goog.object');
 goog.require('uribuilder.EventHandler');
 goog.require('uribuilder.Ui');
 goog.require('uribuilder.Uri');
@@ -36,7 +37,7 @@ uribuilder.Controller.prototype.composeUri_ = function()
   this.uri_.setPath(fieldValues[uribuilder.Ui.FieldName.PATH]);
   this.uri_.setQuery(fieldValues[uribuilder.Ui.FieldName.QUERY]);
   this.uri_.setFragment(fieldValues[uribuilder.Ui.FieldName.FRAGMENT]);
-  this.uri_.setDoubleSlash(toggleValues[uribuilder.Ui.FieldName.DOUBLESLASH]);
+  this.uri_.setDoubleSlash(toggleValues[uribuilder.Ui.ToggleName.DOUBLESLASH]);
   var values = {};
   values[uribuilder.Ui.FieldName.URI] = this.uri_.toString();
   this.ui_.setFieldValues(values, false);
@@ -53,6 +54,8 @@ uribuilder.Controller.prototype.initActions_ = function()
     uribuilder.EventHandler.EventType.URI, this.onUriEvent_, false, this);
   this.eventHandler_.addEventListener(
     uribuilder.EventHandler.EventType.FIELD, this.onFieldEvent_, false, this);
+  this.eventHandler_.addEventListener(
+    uribuilder.EventHandler.EventType.TOGGLE, this.onToggleEvent_, false, this);
 };
 
 /**
@@ -71,8 +74,10 @@ uribuilder.Controller.prototype.initEventHandler_ = function()
 uribuilder.Controller.prototype.initUi_ = function()
 {
   this.ui_ = new uribuilder.Ui();
-  var fieldElements = this.ui_.getFieldElements();
-  this.eventHandler_.addDomListeners(fieldElements);
+  var allElements = this.ui_.getFieldElements();
+  var toggleElements = this.ui_.getToggleElements();
+  goog.object.extend(allElements, toggleElements);
+  this.eventHandler_.addDomListeners(allElements);
 };
 
 /**
@@ -91,6 +96,16 @@ uribuilder.Controller.prototype.onUriEvent_ = function(evt)
  * @private
  */
 uribuilder.Controller.prototype.onFieldEvent_ = function(evt)
+{
+  this.composeUri_();
+};
+
+/**
+ * Handle the event of toggle click.
+ * @param {goog.events.Event} evt The event.
+ * @private
+ */
+uribuilder.Controller.prototype.onToggleEvent_ = function(evt)
 {
   this.composeUri_();
 };

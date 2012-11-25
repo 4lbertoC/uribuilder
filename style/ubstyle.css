@@ -60,6 +60,10 @@ body {
     text-align: center;
     height: 1px;
   }
+
+  .rightHover {
+    right: -25px;
+  }
 }
 
 @media all and (max-width:499px) {
@@ -86,6 +90,10 @@ body {
     margin: 5px 0px !important;
     font-size: 1em;
   }
+
+  .rightHover {
+    right: 0px;
+  }
 }
 
 .textfield {
@@ -102,5 +110,12 @@ body {
 
 .toggle {
   opacity: 0.2;
+}
+
+.clickable {
   cursor: pointer;
+}
+
+.rightHover {
+  position: absolute;
 }

@@ -1,7 +1,7 @@
 #URI Builder
 
 ## Summary
-This tool provides a form in which a URI can be split into its components or built from them.
+This tool provides a form inside a web page in which a URI can be split into its components or built from them.
 
 ## Closure Tools
 The project has been developed with the [Google Closure Tools](https://developers.google.com/closure/):
