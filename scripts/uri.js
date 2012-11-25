@@ -11,7 +11,7 @@ goog.require('goog.string');
  */
 uribuilder.Uri = function(opt_uri)
 {
-  this.setUri(uri);
+  this.setUri(opt_uri);
 };
 
 /**
