@@ -26,20 +26,20 @@ uribuilder.Controller = function()
  * data contained in the other fields.
  * @private
  */
-uribuilder.Controller.composeUri_ = function()
+uribuilder.Controller.prototype.composeUri_ = function()
 {
-  // TODO
-};
-
-/**
- * Initialize the UI.
- */
-uribuilder.Controller.prototype.init = function()
-{
-  this.initEventHandler_();
-  this.initUi_();
-  this.initActions_();
-  this.uri_ = new uribuilder.Uri();
+  var fieldValues = this.ui_.getFieldValues();
+  var toggleValues = this.ui_.getToggleValues();
+  this.uri_.setScheme(fieldValues[uribuilder.Ui.FieldName.SCHEME]);
+  this.uri_.setDomain(fieldValues[uribuilder.Ui.FieldName.DOMAIN]);
+  this.uri_.setPort(fieldValues[uribuilder.Ui.FieldName.PORT]);
+  this.uri_.setPath(fieldValues[uribuilder.Ui.FieldName.PATH]);
+  this.uri_.setQuery(fieldValues[uribuilder.Ui.FieldName.QUERY]);
+  this.uri_.setFragment(fieldValues[uribuilder.Ui.FieldName.FRAGMENT]);
+  this.uri_.setDoubleSlash(toggleValues[uribuilder.Ui.FieldName.DOUBLESLASH]);
+  var values = {};
+  values[uribuilder.Ui.FieldName.URI] = this.uri_.toString();
+  this.ui_.setFieldValues(values, false);
 };
 
 /**
@@ -91,7 +91,9 @@ uribuilder.Controller.prototype.onUriEvent_ = function(evt)
  * @private
  */
 uribuilder.Controller.prototype.onFieldEvent_ = function(evt)
-{};
+{
+  this.composeUri_();
+};
 
 /**
  * Set the Uri to the given string and send the components
@@ -111,7 +113,18 @@ uribuilder.Controller.prototype.processUri_ = function(uri)
   values[uribuilder.Ui.FieldName.FRAGMENT] = this.uri_.getFragment();
   toggle[uribuilder.Ui.ToggleName.DOUBLESLASH] = this.uri_.hasDoubleSlash();
   this.ui_.setFieldValues(values, true);
-  this.ui_.setToggles(toggle);
+  this.ui_.setToggleElements(toggle);
+};
+
+/**
+ * Initialize the UI.
+ */
+uribuilder.Controller.prototype.init = function()
+{
+  this.initEventHandler_();
+  this.initUi_();
+  this.initActions_();
+  this.uri_ = new uribuilder.Uri();
 };
 
 /**

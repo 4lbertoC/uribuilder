@@ -2,6 +2,8 @@
 
 goog.provide('uribuilder.Uri');
 
+goog.require('goog.string');
+
 /**
  * The class that represents a Uri.
  * @param {string} opt_uri The string to parse into a Uri.
@@ -10,6 +12,25 @@ goog.provide('uribuilder.Uri');
 uribuilder.Uri = function(uri)
 {
   this.setUri(uri);
+};
+
+/**
+ * Build the uri string based on its components.
+ */
+uribuilder.Uri.prototype.composeUri_ = function()
+{
+  var scheme = this.scheme_ ? this.scheme_ + ':' : '';
+  if(scheme.length > 0 && this.doubleSlash_)
+  {
+    scheme += '//';
+  }
+  var domain = this.domain_;
+  var port = this.port_ ? ':' + this.port_ : '';
+  var path = this.path_;
+  var query = this.query_ ? '?' + this.query_ : '';
+  var fragment = this.fragment_ ? '#' + this.fragment_ : '';;
+  this.rawUri_ = goog.string.buildString(
+    scheme + domain + port + path + query + fragment);
 };
 
 /**
@@ -34,6 +55,22 @@ uribuilder.Uri.prototype.createComponents_ = function(uri)
   }
   this.query_ = matches[10];
   this.fragment_ = matches[12];
+};
+
+/**
+ * Reset the inner fields of the Uri object.
+ * @private
+ */
+uribuilder.Uri.prototype.reset_ = function()
+{
+  this.rawUri_ = undefined;
+  this.scheme_ = undefined;
+  this.doubleSlash_ = undefined;
+  this.domain_ = undefined;
+  this.port_ = undefined;
+  this.path_ = undefined;
+  this.query_ = undefined;
+  this.fragment_ = undefined;
 };
 
 /**
@@ -100,20 +137,89 @@ uribuilder.Uri.prototype.hasDoubleSlash = function()
 };
 
 /**
- * Reset the inner fields of the Uri object.
- * @private
+ * Set the domain of the Uri.
+ * @param {string} domain The domain of the Uri.
  */
-uribuilder.Uri.prototype.reset_ = function()
+uribuilder.Uri.prototype.setDomain = function(domain)
 {
-  this.rawUri_ = undefined;
-  this.scheme_ = undefined;
-  this.doubleSlash_ = undefined;
-  this.domain_ = undefined;
-  this.port_ = undefined;
-  this.path_ = undefined;
-  this.query_ = undefined;
-  this.fragment_ = undefined;
+  if(goog.isString(domain))
+  {
+    this.domain_ = domain;
+  }
 };
+
+/**
+ * Set the fragment of the Uri.
+ * @param {string} fragment The fragment of the Uri.
+ */
+uribuilder.Uri.prototype.setFragment = function(fragment)
+{
+  if(goog.isString(fragment))
+  {
+    this.fragment_ = fragment;
+  }
+};
+
+/**
+ * Set the path of the Uri.
+ * @param {string} path The path of the Uri.
+ */
+uribuilder.Uri.prototype.setPath = function(path)
+{
+  if(goog.isString(path))
+  {
+    this.path_ = path;
+  }
+};
+
+/**
+ * Set the port of the Uri.
+ * @param {string} port The port of the Uri.
+ */
+uribuilder.Uri.prototype.setPort = function(port)
+{
+  if(goog.isString(port))
+  {
+    this.port_ = port;
+  }
+};
+
+/**
+ * Set the query of the Uri.
+ * @param {string} query The query of the Uri.
+ */
+uribuilder.Uri.prototype.setQuery = function(query)
+{
+  if(goog.isString(query))
+  {
+    this.query_ = query;
+  }
+};
+
+/**
+ * Set the scheme of the Uri.
+ * @param {string} scheme The scheme of the Uri.
+ */
+uribuilder.Uri.prototype.setScheme = function(scheme)
+{
+  if(goog.isString(scheme))
+  {
+    this.scheme_ = scheme;
+  }
+};
+
+/**
+ * Tell whether the Uri has a double slash after the scheme.
+ * @param {boolean} doubleSlash If there is a double slash.
+ */
+uribuilder.Uri.prototype.setDoubleSlash = function(doubleSlash)
+{
+  if(goog.isBoolean(doubleSlash))
+  {
+    this.doubleSlash_ = doubleSlash;
+  }
+};
+
 
 /**
  * Set the uri from the given string.
@@ -135,6 +241,7 @@ uribuilder.Uri.prototype.setUri = function(uri)
  */
 uribuilder.Uri.prototype.toString = function()
 {
+  this.composeUri_();
   return this.rawUri_;
 };
 

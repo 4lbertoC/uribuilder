@@ -16,10 +16,10 @@ uribuilder.Ui = function()
 {
   var textFields =
     goog.dom.getElementsByClass(uribuilder.Ui.TEXTFIELD_CLASSNAME);
-  var toggles =
+  var toggleElements =
     goog.dom.getElementsByClass(uribuilder.Ui.TOGGLE_CLASSNAME);
   this.textFields_ = {};
-  this.toggles_ = {};
+  this.toggleElements_ = {};
   goog.array.forEach(textFields, function(element)
   {
     var id = element.id;
@@ -30,14 +30,14 @@ uribuilder.Ui = function()
       this.textFields_[elementTag] = element;
     }
   }, this);
-  goog.array.forEach(toggles, function(element)
+  goog.array.forEach(toggleElements, function(element)
   {
     var id = element.id;
     if (goog.string.startsWith(id, uribuilder.Ui.PREFIX))
     {
       var elementTag =
         goog.string.remove(id, uribuilder.Ui.PREFIX).toUpperCase();
-      this.toggles_[elementTag] = element;
+      this.toggleElements_[elementTag] = element;
     }
   }, this);
 };
@@ -65,6 +65,28 @@ uribuilder.Ui.prototype.getFieldValues = function()
 };
 
 /**
+ * Return the toggle elements.
+ * @return {Array.<HTMLElement>} The toggle elements.
+ */
+uribuilder.Ui.prototype.getToggleElements = function()
+{
+  return this.toggleElements_;
+};
+
+/**
+ * Return the value of the toggle elements.
+ * @return {Object.<string, boolean>} The mapping <fieldName, value>.
+ */
+uribuilder.Ui.prototype.getToggleValues = function()
+{
+  var values = goog.object.map(this.toggleElements_, function(element)
+  {
+    return !goog.dom.classes.has(element, uribuilder.Ui.TOGGLE_CLASSNAME);
+  }, this);
+  return values;
+};
+
+/**
  * Reset the value of the fields.
  * @param {boolean} includeUri Also resets the Uri.
  */
@@ -83,9 +105,9 @@ uribuilder.Ui.prototype.resetFieldValues = function(includeUri)
 /**
  * Reset the elements that are untoggled by default.
  */
-uribuilder.Ui.prototype.resetToggles = function()
+uribuilder.Ui.prototype.resetToggleElements = function()
 {
-  goog.object.forEach(this.toggles_, function(element, fieldName)
+  goog.object.forEach(this.toggleElements_, function(element, fieldName)
   {
     goog.dom.classes.add(element, 'toggle');
   });
@@ -102,7 +124,7 @@ uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
   if (resetBefore)
   {
     this.resetFieldValues();
-    this.resetToggles();
+    this.resetToggleElements();
   }
   goog.object.forEach(values, function(value, fieldName)
   {
@@ -118,20 +140,20 @@ uribuilder.Ui.prototype.setFieldValues = function(values, resetBefore)
  * Set whether to enable the toggle elements.
  * @param {Object.<string, boolean>} The map of the elements.
  */
-uribuilder.Ui.prototype.setToggles = function(toggle)
+uribuilder.Ui.prototype.setToggleElements = function(toggle)
 {
   goog.object.forEach(toggle, function(value, fieldName)
   {
-    if (goog.object.containsKey(this.toggles_, fieldName))
+    if (goog.object.containsKey(this.toggleElements_, fieldName))
     {
       if(value)
       {
-        goog.dom.classes.remove(this.toggles_[fieldName],
+        goog.dom.classes.remove(this.toggleElements_[fieldName],
           uribuilder.Ui.TOGGLE_CLASSNAME);
       }
       else
       {
-        goog.dom.classes.add(this.toggles_[fieldName],
+        goog.dom.classes.add(this.toggleElements_[fieldName],
           uribuilder.Ui.TOGGLE_CLASSNAME);
       }
     }
@@ -180,9 +202,16 @@ uribuilder.Ui.TOGGLE_CLASSNAME = goog.getCssName('toggle');
 uribuilder.Ui.PREFIX = 't_';
 
 /**
- * The text fields
+ * The text fields.
  * @type {Object.<string, HTMLElement>}
  * @private
  */
 uribuilder.Ui.prototype.textFields_ = null;
+
+/**
+ * The toggle elements.
+ * @type {Object.<string, HTMLElement>}
+ * @private
+ */
+uribuilder.Ui.prototype.toggleElements_ = null;
 
