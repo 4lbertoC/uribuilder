@@ -5,7 +5,7 @@
 #################
 
 # uribuilder's path relative to the Closure Library
-UB_PATH="../uribuilder"
+UB_PATH="../uribuild"
 
 # Folder in which the scripts are contained
 SCRIPTS_FOLDER="/scripts"
@@ -21,7 +21,6 @@ DEPS_FILENAME="uribuilder_deps.js"
 #################
 
 # Output dir relative to the Closure Library
-# BUILD_PATH="/usr/share/jetty/webapps/uribuilder"
 BUILD_PATH="../_deploy/uribuild/static"
 
 # Build mode (dev|prod)
