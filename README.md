@@ -5,11 +5,11 @@ This tool provides a form in which a URI can be split into its components or bui
 
 ## Closure Tools
 The project has been developed with the [Google Closure Tools](https://developers.google.com/closure/):
-* Its OO structure follows the [Closure Library](https://developers.google.com/closure/library/) guidelines, and also uses its modules.
+* Its OO structure follows the [Closure Library](https://developers.google.com/closure/library/) guidelines, and also uses some of its [modules](http://closure-library.googlecode.com/svn/docs/index.html).
 * It can both be built in debug mode and compiled with the [Closure Compiler](https://developers.google.com/closure/compiler/), through respectively the Library's [DepsWriter](https://developers.google.com/closure/library/docs/depswriter) and [ClosureBuilder](https://developers.google.com/closure/library/docs/closurebuilder) python scripts.
 * It minifies the CSS with the [Closure Stylesheets](https://code.google.com/p/closure-stylesheets/).
 * It generates the index.html's content from its Soy template through the [Closure Templates](https://developers.google.com/closure/templates).
-* The javascript code style is checked with the [Closure Linter](https://developers.google.com/closure/utilities/)
+* The javascript code style is checked with the [Closure Linter](https://developers.google.com/closure/utilities/).
 
 ## Other features
 * [Responsive design](http://en.wikipedia.org/wiki/Responsive_web_design)
